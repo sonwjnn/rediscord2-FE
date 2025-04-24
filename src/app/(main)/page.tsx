@@ -1,24 +1,31 @@
-"use client"
+'use client'
 
-import { useAuth } from "@/hooks/use-auth";
-import { redirect } from "next/navigation"
-import { useEffect, useState } from "react";
+import { LogoutButton } from '@/components/auth/logout-button'
+import { useAuth } from '@/hooks/use-auth'
+import { useGetCurrentUser } from '@/services/auth/mutations'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
-  const { currentUser, isAuthenticated } = useAuth();
+  const [mounted, setMounted] = useState(false)
+  const { mutateAsync: getCurrentUserMutation } = useGetCurrentUser()
 
-  if (!currentUser) {
-    redirect("/auth/login");
-  }
+  const { currentUser } = useAuth()
 
-  useEffect(() => {setMounted(true)},[])
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
-  if(!mounted) return null
+  if (!mounted) return null
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold">Welcome {JSON.stringify(currentUser)}</h1>
+      <h1 className="text-4xl font-bold">
+        Welcome {JSON.stringify(currentUser)}
+      </h1>
       <p className="mt-4 text-xl text-gray-600">You are logged in!</p>
+
+      <LogoutButton>Logout</LogoutButton>
+      <button onClick={() => getCurrentUserMutation()}>Get User</button>
     </div>
   )
 }

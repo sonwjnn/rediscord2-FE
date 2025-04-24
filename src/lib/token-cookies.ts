@@ -1,11 +1,11 @@
 import Cookies from 'universal-cookie'
 
-const cookies = new Cookies();
+const cookies = new Cookies()
 
 import {
   COOKIE_EXPIRATION_TIME,
   REFRESH_TOKEN_COOKIE,
-  TOKEN_COOKIE
+  TOKEN_COOKIE,
 } from '@/lib/constants'
 
 type CreateSessionCookiesParams = {
@@ -19,21 +19,21 @@ export function createSessionCookies(params: CreateSessionCookiesParams) {
   if (token) {
     cookies.set(TOKEN_COOKIE, token, {
       maxAge: COOKIE_EXPIRATION_TIME,
-      path: '/'
+      path: '/',
     })
   }
 
   if (refreshToken) {
     cookies.set(REFRESH_TOKEN_COOKIE, refreshToken, {
       maxAge: COOKIE_EXPIRATION_TIME,
-      path: '/'
+      path: '/',
     })
   }
 }
 
 export function removeSessionCookies() {
-  cookies.remove(TOKEN_COOKIE)
-  cookies.remove(REFRESH_TOKEN_COOKIE)
+  cookies.remove(TOKEN_COOKIE, { path: '/' })
+  cookies.remove(REFRESH_TOKEN_COOKIE, { path: '/' })
 }
 
 export function getToken() {

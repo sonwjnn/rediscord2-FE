@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { API_BASE_URL } from '@/services/endpoints';
-import { createSessionCookies } from '@/lib/tokenCookies';
 
 const publicClient = axios.create({
   baseURL: API_BASE_URL,
@@ -19,14 +18,7 @@ publicClient.interceptors.request.use(
 );
 
 publicClient.interceptors.response.use(
-  (response) => {
-    const token = response.data?.accessToken;
-    const refreshToken = response.data?.refreshToken;
-
-    createSessionCookies({ token, refreshToken });
-
-    return response;
-  },
+  (response) => response,
   () => {
     // Do something with response error
     throw new Error('Something went wrong');

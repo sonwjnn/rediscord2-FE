@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@/auth";
+import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
 interface LogoutButtonProps {
@@ -9,8 +9,10 @@ interface LogoutButtonProps {
 }
 
 export const LogoutButton = ({ children, className }: LogoutButtonProps) => {
+  const { logout } = useAuth()
+
   const onClick = () => {
-    signOut();
+    logout();
   };
 
   return (

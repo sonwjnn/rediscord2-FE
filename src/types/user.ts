@@ -1,5 +1,3 @@
-import { type DefaultSession } from "next-auth";
-
 export enum CleaningDelayEnum {
   FOUR_HOURS,
   ONE_HOUR,
@@ -14,15 +12,6 @@ export enum StatusEnum {
   OFFLINE,
   MOBILE,
 }
-
-export type ExtendedUser = DefaultSession["user"] & {
-  isTwoFactorEnabled: boolean;
-  isOAuth: boolean;
-  status: StatusEnum;
-  bio: string;
-  cleaningDelay: CleaningDelayEnum;
-  createdAt: Date;
-};
 
 export type User = {
   id: string;
