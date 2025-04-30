@@ -15,7 +15,6 @@ export default async function middleware(req: NextRequest) {
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
 
-  // Cho phép tất cả API auth routes đi qua
   if (isApiAuthRoute) {
     return null
   }

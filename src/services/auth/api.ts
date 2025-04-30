@@ -2,7 +2,7 @@ import publicClient from '@/services/client/public-client'
 import privateClient from '@/services/client/private-client'
 
 import { ENDPOINTS } from '@/services/endpoints'
-import { createSessionCookies } from '@/lib/token-cookies'
+
 import { LoginResponse } from './types'
 import { User } from '@/types/user'
 
@@ -21,11 +21,14 @@ export const login = async ({
     },
   )
 
-  const token = response.data?.accessToken
-  const refreshToken = response.data?.refreshToken
+  return response
+}
 
-  createSessionCookies({ token, refreshToken })
-
+export const loginGoogle = async ({ token }: { token: string }) => {
+  const response = await publicClient.post<LoginResponse>(
+    ENDPOINTS.AUTH.LOGIN_GOOGLE,
+    { token },
+  )
   return response
 }
 

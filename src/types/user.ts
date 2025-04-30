@@ -13,19 +13,32 @@ export enum StatusEnum {
   MOBILE,
 }
 
-export type User = {
-  id: string;
-  name?: string;
-  firstName?: string;
-  lastName?: string;
-  password?: string
-  email: string;
-  emailVerified?: Date;
-  image?: string;
-  bio?: string;
-  isTwoFactorEnabled: boolean;
-  status: StatusEnum;
-  cleaningDelay: CleaningDelayEnum;
-  createdAt: Date
+export type providerType = 'google' | 'github'
+
+export type SocialProvider = 'google' | 'github';
+
+export interface ProviderConfig {
+  issuerUrl: string;
+  clientId: string;
+  clientSecret: string;
+  scopes: string;
+  authorizationEndpoint?: string;
+  tokenEndpoint?: string;
 }
 
+export interface UseOAuthOptions {
+  redirectUri?: string;
+  onLoginSuccess?: () => void;
+  onLoginError?: (error: Error) => void;
+}
+
+export type User = {
+  id: string
+  name?: string
+  password?: string
+  email: string
+  emailVerified?: Date
+  image?: string
+  isTwoFactorEnabled: boolean
+  createdAt: Date
+}

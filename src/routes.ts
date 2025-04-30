@@ -13,6 +13,7 @@ export const publicRoutes = [] as string [];
  */
 export const authRoutes = [
   "/auth/login",
+  "/auth/google/callback",
   "/auth/register",
   "/auth/error",
   "/auth/reset",

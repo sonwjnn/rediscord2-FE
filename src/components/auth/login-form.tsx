@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import { CardWrapper } from "@/components/auth/card-wrapper";
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
-import { Spinner } from "@/components/spinner";
-import { Button } from "@/components/ui/button";
+import { CardWrapper } from '@/components/auth/card-wrapper'
+import { FormError } from '@/components/form-error'
+import { FormSuccess } from '@/components/form-success'
+import { Spinner } from '@/components/spinner'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -12,45 +12,44 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { LoginSchema } from "@/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { useAuth } from "@/hooks/use-auth";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { LoginSchema } from '@/schemas'
+import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { useAuth } from '@/hooks/use-auth'
 
 export const LoginForm = () => {
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
-  const [showTwoFactor, setShowTwoFactor] = useState(false);
+  const [error, setError] = useState<string | undefined>('')
+  const [success, setSuccess] = useState<string | undefined>('')
+  const [showTwoFactor, setShowTwoFactor] = useState(false)
 
-  const { login, isLoading } = useAuth();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams?.get("callbackUrl");
+  const { onCredentialSignIn, isLoading } = useAuth()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams?.get('callbackUrl')
   const urlError =
-    searchParams?.get("error") === "OAuthAccountNotLinked"
-      ? "Email already in use with different provider!"
-      : "";
+    searchParams?.get('error') === 'OAuthAccountNotLinked'
+      ? 'Email already in use with different provider!'
+      : ''
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      usernameOrEmail: "",
-      password: "",
+      usernameOrEmail: '',
+      password: '',
     },
-  });
-
+  })
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    setError("");
-    setSuccess("");
+    setError('')
+    setSuccess('')
 
-    login(values.usernameOrEmail, values.password);
-  };
+    onCredentialSignIn(values.usernameOrEmail, values.password)
+  }
 
   return (
     <CardWrapper
@@ -122,7 +121,7 @@ export const LoginForm = () => {
                         asChild
                         className="px-0 font-normal"
                       >
-                        <Link href={"/auth/reset"}>Forgot password?</Link>
+                        <Link href={'/auth/reset'}>Forgot password?</Link>
                       </Button>
                       <FormMessage />
                     </FormItem>
@@ -135,10 +134,10 @@ export const LoginForm = () => {
           <FormSuccess message={success} />
           <Button type="submit" disabled={isLoading} className="w-full">
             {isLoading ? <Spinner className="mr-2" /> : null}
-            {showTwoFactor ? "Confirm" : "Login"}
+            {showTwoFactor ? 'Confirm' : 'Login'}
           </Button>
         </form>
       </Form>
     </CardWrapper>
-  );
-};
+  )
+}

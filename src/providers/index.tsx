@@ -1,6 +1,7 @@
 'use client'
 
-import { AuthProvider } from './auth-provider';
+import { AuthProvider } from './auth-provider'
+import { GoogleProvider } from './google-provider'
 // import { ModalProvider } from './modal-provider'
 import { QueryProvider } from './query-provider'
 // import { SocketProvider } from './socket-provider'
@@ -12,7 +13,9 @@ interface ProvidersProps {
 export const Providers = ({ children }: ProvidersProps) => {
   return (
     <QueryProvider>
-      <AuthProvider>{children}</AuthProvider>
+      <GoogleProvider>
+        <AuthProvider>{children}</AuthProvider>
+      </GoogleProvider>
     </QueryProvider>
-  );
-};
+  )
+}

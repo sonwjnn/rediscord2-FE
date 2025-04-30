@@ -3,7 +3,7 @@ import { LoginResponse } from './types'
 import { AxiosResponse } from 'axios'
 import { toast } from 'sonner'
 import { User } from '@/types/user'
-import { getMe, login, logout, register } from './api'
+import { getMe, login, loginGoogle, logout, register } from './api'
 import { AUTH_KEYS } from './keys'
 
 export const useLogin = () => {
@@ -14,6 +14,19 @@ export const useLogin = () => {
   >({
     mutationKey: [AUTH_KEYS.LOGIN],
     mutationFn: login,
+    onSuccess: () => {
+      toast.success('Login successfully!')
+    },
+    onError: () => {
+      toast.error('Login failed!')
+    },
+  })
+}
+
+export const useLoginWithGoogle = () => {
+  return useMutation<AxiosResponse<LoginResponse>, Error, { token: string }>({
+    mutationKey: [AUTH_KEYS.LOGIN_GOOGLE],
+    mutationFn: loginGoogle,
     onSuccess: () => {
       toast.success('Login successfully!')
     },

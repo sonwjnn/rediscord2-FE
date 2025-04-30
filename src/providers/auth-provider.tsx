@@ -1,17 +1,45 @@
 'use client'
 
-import { useEffect, ReactNode, useCallback, useMemo } from 'react'
+import {
+  useEffect,
+  ReactNode,
+  useCallback,
+  useMemo,
+  createContext,
+} from 'react'
 import {
   useLogin,
   useRegister,
   useGetCurrentUser,
   useLogout,
+  useLoginWithGoogle,
 } from '@/services/auth/mutations'
-import { AuthContext } from '@/contexts/auth-context'
-import { getToken, removeSessionCookies } from '@/lib/token-cookies'
+import {
+  createSessionCookies,
+  getToken,
+  removeSessionCookies,
+} from '@/lib/token-cookies'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { useUserStore } from '@/store/use-user-store'
+import { providerType, User } from '@/types/user'
+import { LoginResponse } from '@/services/auth/types'
+import { useGoogleLogin } from '@react-oauth/google'
+export interface AuthContextType {
+  isAuthenticated: boolean
+  currentUser: User | null
+  onCredentialSignIn: (
+    usernameOrEmail: string,
+    password: string,
+  ) => Promise<LoginResponse | void>
+  onProviderSignIn: (provider: providerType) => void
+  handleAuthSuccess: () => Promise<boolean>
+  register: (username: string, email: string, password: string) => Promise<void>
+  isLoading: boolean
+  logout: () => Promise<void>
+}
+
+export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AFTER_SIGN_IN_REDIRECT_URL = '/'
 export const AFTER_LOGOUT_REDIRECT_URL = '/'
@@ -22,6 +50,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { user, setUser } = useUserStore()
 
   const { mutateAsync: loginMutation, isPending: loginPending } = useLogin()
+  const { mutateAsync: loginGoogleMutation, isPending: loginGooglePending } =
+    useLoginWithGoogle()
   const { mutateAsync: registerMutation, isPending: registerPending } =
     useRegister()
   const { mutateAsync: logoutMutation, isPending: logoutPending } = useLogout()
@@ -31,7 +61,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   } = useGetCurrentUser()
 
   const isLoading =
-    loginPending || registerPending || logoutPending || getCurrentUserPending
+    loginPending ||
+    registerPending ||
+    logoutPending ||
+    getCurrentUserPending ||
+    loginGooglePending
 
   const clearData = useCallback(() => {
     setUser(null)
@@ -55,12 +89,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [getCurrentUserMutation, router, setUser])
 
-  const login = useCallback(
+  const onCredentialSignIn = useCallback(
     async (usernameOrEmail: string, password: string) => {
       try {
         const response = await loginMutation({ usernameOrEmail, password })
 
         if (response.status === 200) {
+          const token = response.data?.accessToken
+          const refreshToken = response.data?.refreshToken
+
+          createSessionCookies({ token, refreshToken })
+
           await handleAuthSuccess()
         }
       } catch (error) {
@@ -69,6 +108,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     },
     [loginMutation, handleAuthSuccess],
+  )
+
+  const loginGoogle = useGoogleLogin({
+    onSuccess: async tokenResponse => {
+      try {
+        const response = await loginGoogleMutation({
+          token: tokenResponse.access_token,
+        })
+
+        if (response.status === 200) {
+          const token = response.data?.accessToken
+          const refreshToken = response.data?.refreshToken
+
+          createSessionCookies({ token, refreshToken })
+
+          await handleAuthSuccess()
+        }
+      } catch (err) {
+        console.error('Server auth failed', err)
+      }
+    },
+    onError: () => {
+      console.error('Google login failed')
+    },
+    scope: 'openid email profile',
+    flow: 'implicit',
+  })
+
+  const onProviderSignIn = useCallback(
+    (provider: providerType) => {
+      switch (provider) {
+        case 'google':
+          loginGoogle()
+          break
+        default:
+          break
+      }
+    },
+    [loginGoogle],
   )
 
   const register = useCallback(
@@ -108,29 +186,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     ;(async () => {
-      const token = getToken()
+      try {
+        const token = getToken()
 
-      if (!token) {
-        clearData()
-        return
-      }
+        if (!token) {
+          clearData()
+          return
+        }
 
-      const userStorage = sessionStorage.getItem('user-storage')
-      let userSession = null
+        const userStorage = sessionStorage.getItem('user-storage')
+        let userSession = null
 
-      if (userStorage) {
-        try {
+        if (userStorage) {
           const parsed = JSON.parse(userStorage)
           userSession = parsed.state?.user
-        } catch (error) {
-          console.error('Error parsing user storage:', error)
-          sessionStorage.removeItem('user-storage')
         }
-      }
 
-      if (userSession) return
+        if (userSession) return
 
-      try {
         const response = await getCurrentUserMutation()
         if (response?.data) {
           setUser(response.data)
@@ -164,12 +237,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => ({
       isAuthenticated: !!user && !!getToken(),
       currentUser: user,
-      login,
+      onCredentialSignIn,
+      onProviderSignIn,
+      handleAuthSuccess,
       register,
       logout,
       isLoading,
     }),
-    [user, login, register, logout, isLoading],
+    [
+      user,
+      onCredentialSignIn,
+      onProviderSignIn,
+      register,
+      logout,
+      handleAuthSuccess,
+      isLoading,
+    ],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
