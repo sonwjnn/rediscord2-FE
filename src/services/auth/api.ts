@@ -3,16 +3,17 @@ import privateClient from '@/services/client/private-client'
 
 import { ENDPOINTS } from '@/services/endpoints'
 
-import { LoginResponse } from './types'
+import {
+  LoginRequest,
+  LoginResponse,
+  ReactOauthLoginRequest,
+  RegisterRequest,
+  ResendNewVerificationRequest,
+  SocialLoginRequest,
+} from './types'
 import { User } from '@/types/user'
 
-export const login = async ({
-  usernameOrEmail,
-  password,
-}: {
-  usernameOrEmail: string
-  password: string
-}) => {
+export const login = async ({ usernameOrEmail, password }: LoginRequest) => {
   const response = await publicClient.post<LoginResponse>(
     ENDPOINTS.AUTH.LOGIN,
     {
@@ -24,10 +25,32 @@ export const login = async ({
   return response
 }
 
-export const loginGoogle = async ({ token }: { token: string }) => {
+export const loginSocial = async (props: SocialLoginRequest) => {
+  const endpoint = (() => {
+    switch (props.type) {
+      case 'google':
+        return ENDPOINTS.AUTH.LOGIN_GOOGLE
+      case 'github':
+        return ENDPOINTS.AUTH.LOGIN_GITHUB
+      default:
+        return ENDPOINTS.AUTH.LOGIN_GOOGLE
+    }
+  })()
+
+  const response = await publicClient.post<LoginResponse>(endpoint, {
+    idToken: props.idToken,
+  })
+  return response
+}
+
+export const loginReactOauth = async ({
+  accessToken,
+}: ReactOauthLoginRequest) => {
   const response = await publicClient.post<LoginResponse>(
     ENDPOINTS.AUTH.LOGIN_GOOGLE,
-    { token },
+    {
+      accessToken,
+    },
   )
   return response
 }
@@ -36,11 +59,7 @@ export const register = async ({
   username,
   email,
   password,
-}: {
-  username: string
-  email: string
-  password: string
-}) => {
+}: RegisterRequest) => {
   const response = await publicClient.post<void>(ENDPOINTS.AUTH.REGISTER, {
     username,
     email,
@@ -56,6 +75,25 @@ export const getMe = async () => {
 
 export const logout = async () => {
   const response = await privateClient.post(ENDPOINTS.AUTH.LOGOUT)
+
+  return response
+}
+
+export const newVerification = async ({ token }: { token: string }) => {
+  const response = await publicClient.post(ENDPOINTS.AUTH.CONFIRM_EMAIL, {
+    token,
+  })
+
+  return response
+}
+
+export const resendNewVerification = async ({
+  email,
+}: ResendNewVerificationRequest) => {
+  const response = await publicClient.post(
+    ENDPOINTS.AUTH.RESEND_CONFIRM_EMAIL,
+    { email },
+  )
 
   return response
 }

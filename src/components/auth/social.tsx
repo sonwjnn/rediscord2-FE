@@ -1,38 +1,29 @@
 'use client'
 
-// import { GithubIcon, GoogleIcon } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { FcGoogle } from 'react-icons/fc'
 interface SocialProps {}
-// import { FaGithub } from 'react-icons/fa'
 import { useAuth } from '@/hooks/use-auth'
-import { providerType } from '@/types/user'
+import { Spinner } from '@/components/spinner'
 
 export const Social = ({}: SocialProps) => {
-  const { onProviderSignIn } = useAuth()
-
-  const onClick = (provider: providerType) => {
-    onProviderSignIn(provider)
-  }
-
+  const { onProviderSignIn, isLoading } = useAuth()
   return (
-    <div className="flex w-full items-center gap-x-2">
+    <div className="flex flex-col gap-y-2.5">
       <Button
-        onClick={() => onClick('google')}
+        onClick={() => onProviderSignIn('google')}
         size="lg"
-        className="w-full"
         variant="outline"
+        className="w-full relative"
+        disabled={isLoading}
       >
-        <FcGoogle size={28} />
+        {isLoading ? (
+          <Spinner className="mr-2" />
+        ) : (
+          <FcGoogle className="mr-2 size-5 top-2.5 left-2.5 absolute" />
+        )}
+        Continue with Google
       </Button>
-      {/* <Button
-        onClick={() => onClick('github')}
-        size="lg"
-        className="flex-1/2"
-        variant="outline"
-      >
-        <FaGithub size={36} />
-      </Button> */}
     </div>
   )
 }

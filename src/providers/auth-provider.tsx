@@ -12,7 +12,7 @@ import {
   useRegister,
   useGetCurrentUser,
   useLogout,
-  useLoginWithGoogle,
+  useReactOauthLogin,
 } from '@/services/auth/mutations'
 import {
   createSessionCookies,
@@ -22,7 +22,7 @@ import {
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { useUserStore } from '@/store/use-user-store'
-import { providerType, User } from '@/types/user'
+import { ProviderType, User } from '@/types/user'
 import { LoginResponse } from '@/services/auth/types'
 import { useGoogleLogin } from '@react-oauth/google'
 export interface AuthContextType {
@@ -32,7 +32,7 @@ export interface AuthContextType {
     usernameOrEmail: string,
     password: string,
   ) => Promise<LoginResponse | void>
-  onProviderSignIn: (provider: providerType) => void
+  onProviderSignIn: (provider: ProviderType) => void
   handleAuthSuccess: () => Promise<boolean>
   register: (username: string, email: string, password: string) => Promise<void>
   isLoading: boolean
@@ -50,8 +50,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { user, setUser } = useUserStore()
 
   const { mutateAsync: loginMutation, isPending: loginPending } = useLogin()
-  const { mutateAsync: loginGoogleMutation, isPending: loginGooglePending } =
-    useLoginWithGoogle()
+  const { mutateAsync: loginSocialMutation, isPending: loginSocialPending } =
+    useReactOauthLogin()
   const { mutateAsync: registerMutation, isPending: registerPending } =
     useRegister()
   const { mutateAsync: logoutMutation, isPending: logoutPending } = useLogout()
@@ -65,7 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     registerPending ||
     logoutPending ||
     getCurrentUserPending ||
-    loginGooglePending
+    loginSocialPending
 
   const clearData = useCallback(() => {
     setUser(null)
@@ -103,7 +103,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           await handleAuthSuccess()
         }
       } catch (error) {
-        console.error('Login failed:', error)
         throw error
       }
     },
@@ -113,8 +112,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginGoogle = useGoogleLogin({
     onSuccess: async tokenResponse => {
       try {
-        const response = await loginGoogleMutation({
-          token: tokenResponse.access_token,
+        const response = await loginSocialMutation({
+          accessToken: tokenResponse.access_token,
         })
 
         if (response.status === 200) {
@@ -137,7 +136,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   })
 
   const onProviderSignIn = useCallback(
-    (provider: providerType) => {
+    (provider: ProviderType) => {
       switch (provider) {
         case 'google':
           loginGoogle()

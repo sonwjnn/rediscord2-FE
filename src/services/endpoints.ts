@@ -6,11 +6,13 @@ export const ENDPOINTS = {
     REGISTER: 'auth/register',
     REFRESH_TOKEN: 'auth/refresh',
     CONFIRM_EMAIL: 'auth/email/confirm',
+    RESEND_CONFIRM_EMAIL: 'auth/email/confirm/resend',
     LOGOUT: 'auth/logout',
     ME: 'auth/me',
     FORGOT_PASSWORD: 'auth/forgot/password',
     RESET_PASSWORD: 'auth/reset/password',
     LOGIN_GOOGLE: 'auth/google/login',
+    LOGIN_GITHUB: 'auth/github/login',
   },
 
   USER: {
