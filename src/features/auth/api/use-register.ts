@@ -3,7 +3,6 @@ import { useMutation } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import { RegisterRequest } from '@/features/auth/types'
 import publicClient from '@/lib/client/public-client'
-import { toast } from 'sonner'
 
 type ResponseType = AxiosResponse<void>
 
@@ -16,12 +15,6 @@ export const useRegister = () => {
       )
 
       return response
-    },
-    onSuccess: () => {
-      toast.success('Register successfully!')
-    },
-    onError: err => {
-      return err
     },
   })
 }

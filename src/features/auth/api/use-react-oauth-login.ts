@@ -3,7 +3,6 @@ import { useMutation } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import { LoginResponse, ReactOauthLoginRequest } from '@/features/auth/types'
 import publicClient from '@/lib/client/public-client'
-import { toast } from 'sonner'
 
 type ResponseType = AxiosResponse<LoginResponse>
 
@@ -15,12 +14,6 @@ export const useReactOauthLogin = () => {
         json,
       )
       return response
-    },
-    onSuccess: () => {
-      toast.success('Login successfully!')
-    },
-    onError: err => {
-      return err
     },
   })
 }
