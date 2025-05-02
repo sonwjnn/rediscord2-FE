@@ -4,11 +4,13 @@ import privateClient from '@/services/client/private-client'
 import { ENDPOINTS } from '@/services/endpoints'
 
 import {
+  ForgotPasswordRequest,
   LoginRequest,
   LoginResponse,
   ReactOauthLoginRequest,
   RegisterRequest,
   ResendNewVerificationRequest,
+  ResetPasswordRequest,
   SocialLoginRequest,
 } from './types'
 import { User } from '@/types/user'
@@ -94,6 +96,26 @@ export const resendNewVerification = async ({
     ENDPOINTS.AUTH.RESEND_CONFIRM_EMAIL,
     { email },
   )
+
+  return response
+}
+
+export const forgotPassword = async ({ email }: ForgotPasswordRequest) => {
+  const response = await publicClient.post(ENDPOINTS.AUTH.FORGOT_PASSWORD, {
+    email,
+  })
+
+  return response
+}
+
+export const resetPassword = async ({
+  hash,
+  password,
+}: ResetPasswordRequest) => {
+  const response = await publicClient.post(ENDPOINTS.AUTH.RESET_PASSWORD, {
+    hash,
+    password,
+  })
 
   return response
 }

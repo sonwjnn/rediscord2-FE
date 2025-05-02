@@ -9,7 +9,12 @@ interface CardWrapperProps {
   headerLabel: string
   headerDescription?: string
   showSocial?: boolean
-  type?: 'login' | 'signup' | 'verify-email'
+  type?:
+    | 'login'
+    | 'signup'
+    | 'verify-email'
+    | 'reset-password'
+    | 'forgot-password'
 }
 
 export const CardWrapper = ({
@@ -19,6 +24,10 @@ export const CardWrapper = ({
   showSocial,
   type,
 }: CardWrapperProps) => {
+  const isLogin = type === 'login'
+  const isSignup = type === 'signup'
+  const isOther = !isLogin && !isSignup
+
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="px-0 pt-0">
@@ -26,16 +35,16 @@ export const CardWrapper = ({
       </CardHeader>
       <CardContent className="space-y-5 px-0 pb-0">
         {children}
-        {(type === 'login' || type === 'signup') && (
+        {(isLogin || isSignup) && (
           <>
             <p className="text-xs text-right px-0 font-normal hover:underline -mt-2">
-              <Link href={'/auth/reset'}>Forgot password?</Link>
+              <Link href={'/auth/forgot-password'}>Forgot password?</Link>
             </p>
             <Separator />
           </>
         )}
         {showSocial ? <Social /> : null}
-        {type === 'login' && (
+        {isLogin && (
           <p className="text-xs text-muted-foreground">
             Don&apos;t have an account?{' '}
             <Link href="/auth/register" onClick={() => {}}>
@@ -43,11 +52,20 @@ export const CardWrapper = ({
             </Link>
           </p>
         )}
-        {type === 'signup' && (
+        {isSignup && (
           <p className="text-xs text-muted-foreground">
             Already have an account?{' '}
             <Link href="/auth/login" onClick={() => {}}>
               <span className="text-sky-700 hover:underline">Sign in</span>
+            </Link>
+          </p>
+        )}
+        {isOther && (
+          <p className="text-xs text-muted-foreground">
+            <Link href="/auth/login" onClick={() => {}}>
+              <span className="text-sky-700 hover:underline">
+                Back to login
+              </span>
             </Link>
           </p>
         )}

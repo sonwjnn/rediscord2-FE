@@ -14,44 +14,33 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { formatErrorMessage } from '@/lib/utils'
-import { ResetSchema } from '@/schemas'
-import { useResetPassword } from '@/services/auth/mutations'
+import { ForgotPasswordSchema } from '@/schemas'
+import { useForgotPassword } from '@/services/auth/mutations'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
-export const ResetForm = () => {
-  const { mutateAsync: resetPassword, isPending: resetPasswordLoading } =
-    useResetPassword()
-
-  const searchParams = useSearchParams()
-
-  const token = searchParams?.get('token')
+export const ForgotPasswordForm = () => {
+  const { mutateAsync: forgotPassword, isPending: forgotPasswordLoading } =
+    useForgotPassword()
 
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
-
-  const form = useForm<z.infer<typeof ResetSchema>>({
-    resolver: zodResolver(ResetSchema),
+  const form = useForm<z.infer<typeof ForgotPasswordSchema>>({
+    resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: {
-      password: '',
+      email: '',
     },
   })
 
-  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
+  const onSubmit = (values: z.infer<typeof ForgotPasswordSchema>) => {
     setError('')
     setSuccess('')
 
-    if (!token) {
-      setError('Missing token!')
-      return
-    }
-
-    resetPassword({ hash: token!, password: values.password })
+    forgotPassword(values)
       .then(() => {
-        setSuccess('Reset password successfully!')
+        setSuccess('Link to reset password has been sent to your email!')
         setError(undefined)
       })
       .catch(err => {
@@ -61,22 +50,22 @@ export const ResetForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Enter a new password?"
-      headerDescription=" Enter a new password to continue."
-      type="reset-password"
+      headerLabel="Forgot your password?"
+      headerDescription="Enter your email address and we will send you a password reset link."
+      type="forgot-password"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2.5">
           <FormField
             control={form.control}
-            name="password"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Input
-                    type="password"
-                    disabled={resetPasswordLoading}
-                    placeholder="Password"
+                    type="email"
+                    disabled={forgotPasswordLoading}
+                    placeholder="Email"
                     {...field}
                   />
                 </FormControl>
@@ -90,10 +79,10 @@ export const ResetForm = () => {
             className="w-full"
             type="submit"
             size="lg"
-            disabled={resetPasswordLoading}
+            disabled={forgotPasswordLoading}
           >
-            {resetPasswordLoading ? <Spinner className="mr-2" /> : null}
-            Reset password
+            {forgotPasswordLoading ? <Spinner className="mr-2" /> : null}
+            Send
           </Button>
         </form>
       </Form>

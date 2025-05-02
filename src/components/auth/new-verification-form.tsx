@@ -11,7 +11,6 @@ import {
   useResendNewVerification,
 } from '@/services/auth/mutations'
 import { formatErrorMessage } from '@/lib/utils'
-import Link from 'next/link'
 
 export const NewVerificationForm = () => {
   const { mutateAsync: newVerification } = useNewVerification()
@@ -77,13 +76,6 @@ export const NewVerificationForm = () => {
       <div className="flex flex-col w-full items-center justify-center">
         {!success && !error && <Spinner size="icon" />}
         <FormSuccess message={success} />
-        {success && (
-          <Link href="/auth/login">
-            <p className="text-xs text-muted-foreground hover:underline mt-3">
-              Back to login
-            </p>
-          </Link>
-        )}
         {!success && <FormError message={error} />}
         {!success && (
           <button

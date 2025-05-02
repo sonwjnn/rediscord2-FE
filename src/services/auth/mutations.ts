@@ -1,17 +1,20 @@
 import { useMutation } from '@tanstack/react-query'
 import {
+  ForgotPasswordRequest,
   LoginRequest,
   LoginResponse,
   NewVerificationResponse,
   ReactOauthLoginRequest,
   RegisterRequest,
   ResendNewVerificationRequest,
+  ResetPasswordRequest,
   SocialLoginRequest,
 } from './types'
 import { AxiosResponse } from 'axios'
 import { toast } from 'sonner'
 import { User } from '@/types/user'
 import {
+  forgotPassword,
   getMe,
   login,
   loginReactOauth,
@@ -20,6 +23,7 @@ import {
   newVerification,
   register,
   resendNewVerification,
+  resetPassword,
 } from './api'
 import { AUTH_KEYS } from './keys'
 
@@ -108,5 +112,19 @@ export const useResendNewVerification = () => {
   return useMutation<AxiosResponse, Error, ResendNewVerificationRequest>({
     mutationKey: [AUTH_KEYS.RESEND_CONFIRM_EMAIL],
     mutationFn: resendNewVerification,
+  })
+}
+
+export const useForgotPassword = () => {
+  return useMutation<AxiosResponse, Error, ForgotPasswordRequest>({
+    mutationKey: [AUTH_KEYS.FORGOT_PASSWORD],
+    mutationFn: forgotPassword,
+  })
+}
+
+export const useResetPassword = () => {
+  return useMutation<AxiosResponse, Error, ResetPasswordRequest>({
+    mutationKey: [AUTH_KEYS.RESET_PASSWORD],
+    mutationFn: resetPassword,
   })
 }

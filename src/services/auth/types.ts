@@ -45,3 +45,12 @@ export type NewVerificationResponse = {
 export type ResendNewVerificationRequest = {
   email: string
 }
+
+export type ForgotPasswordRequest = {
+  email: string
+}
+
+export type ResetPasswordRequest = {
+  hash: string
+  password: string
+}
