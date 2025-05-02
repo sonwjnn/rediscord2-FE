@@ -40,7 +40,7 @@ export const ForgotPasswordForm = () => {
 
     forgotPassword(values)
       .then(() => {
-        setSuccess('Link to reset password has been sent to your email!')
+        setSuccess('Link has been sent to your email!')
         setError(undefined)
       })
       .catch(err => {
