@@ -1,5 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios'
-import { API_BASE_URL, ENDPOINTS } from '@/services/endpoints'
+import { API_BASE_URL, ENDPOINTS } from '@/features/endpoints'
 import {
   createSessionCookies,
   getRefreshToken,

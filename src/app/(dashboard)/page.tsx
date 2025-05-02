@@ -2,7 +2,7 @@
 
 import { LogoutButton } from '@/components/auth/logout-button'
 import { useAuth } from '@/hooks/use-auth'
-import { useGetCurrentUser } from '@/services/auth/mutations'
+import { useGetCurrentUser } from '@/features/users/api/use-get-current-user'
 import { useEffect, useState } from 'react'
 
 export default function Home() {

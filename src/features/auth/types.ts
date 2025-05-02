@@ -1,4 +1,4 @@
-import { ProviderType } from '@/types/user'
+import { ProviderType } from '@/features/users/types'
 
 export type LoginRequest = {
   usernameOrEmail: string

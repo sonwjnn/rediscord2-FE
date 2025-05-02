@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_BASE_URL } from '@/services/endpoints'
+import { API_BASE_URL } from '@/features/endpoints'
 
 const publicClient = axios.create({
   baseURL: API_BASE_URL,

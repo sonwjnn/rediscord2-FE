@@ -6,10 +6,8 @@ import { FormSuccess } from '@/components/form-success'
 import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { Spinner } from '@/components/spinner'
-import {
-  useNewVerification,
-  useResendNewVerification,
-} from '@/services/auth/mutations'
+import { useResendNewVerification } from '@/features/auth/api/use-resend-new-verification'
+import { useNewVerification } from '@/features/auth/api/use-new-verification'
 import { formatErrorMessage } from '@/lib/utils'
 
 export const NewVerificationForm = () => {

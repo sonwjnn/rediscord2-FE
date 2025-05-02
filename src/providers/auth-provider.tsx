@@ -7,13 +7,12 @@ import {
   useMemo,
   createContext,
 } from 'react'
-import {
-  useLogin,
-  useRegister,
-  useGetCurrentUser,
-  useLogout,
-  useReactOauthLogin,
-} from '@/services/auth/mutations'
+
+import { useLogin } from '@/features/auth/api/use-login'
+import { useRegister } from '@/features/auth/api/use-register'
+import { useLogout } from '@/features/auth/api/use-logout'
+import { useReactOauthLogin } from '@/features/auth/api/use-react-oauth-login'
+import { useGetCurrentUser } from '@/features/users/api/use-get-current-user'
 import {
   createSessionCookies,
   getToken,
@@ -22,8 +21,8 @@ import {
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { useUserStore } from '@/store/use-user-store'
-import { ProviderType, User } from '@/types/user'
-import { LoginResponse } from '@/services/auth/types'
+import { ProviderType, User } from '@/features/users/types'
+import { LoginResponse } from '@/features/auth/types'
 import { useGoogleLogin } from '@react-oauth/google'
 export interface AuthContextType {
   isAuthenticated: boolean

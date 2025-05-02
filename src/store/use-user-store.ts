@@ -1,4 +1,4 @@
-import { User } from '@/types/user'
+import { User } from '@/features/users/types'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { create } from 'zustand'
 

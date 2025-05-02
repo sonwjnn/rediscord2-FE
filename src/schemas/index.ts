@@ -1,5 +1,3 @@
-import { ChannelTypeEnum } from '@/types/channel'
-import { CleaningDelayEnum, StatusEnum } from '@/types/user'
 import * as z from 'zod'
 
 export const LoginSchema = z.object({
@@ -31,78 +29,7 @@ export const ResetSchema = z.object({
   }),
 })
 
-export const SettingsSchema = z
-  .object({
-    name: z.optional(z.string()),
-    isTwoFactorEnabled: z.optional(z.boolean()),
-    email: z.optional(z.string().email()),
-    password: z.optional(z.string().min(6)),
-    newPassword: z.optional(z.string().min(6)),
-  })
-  .refine(
-    data => {
-      if (data.password && !data.newPassword) {
-        return false
-      }
-
-      return true
-    },
-    {
-      message: 'New password is required!',
-      path: ['newPassword'],
-    },
-  )
-  .refine(
-    data => {
-      if (data.newPassword && !data.password) {
-        return false
-      }
-
-      return true
-    },
-    {
-      message: 'Password is required!',
-      path: ['password'],
-    },
-  )
-
-export const ServerSchema = z.object({
-  name: z.string().min(1, { message: 'Server name is required' }),
-  image: z.string().min(1, { message: 'Server image is required' }),
-})
-
 export const UserSchema = z.object({
   name: z.string().min(1, { message: 'User name is required' }),
   image: z.string().min(1, { message: 'User image is required' }),
-})
-
-export const CustomUserStatusSchema = z.object({
-  bio: z.string().min(1, {
-    message: 'Custom status text is required',
-  }),
-  type: z.nativeEnum(StatusEnum),
-  cleaningDelay: z.nativeEnum(CleaningDelayEnum),
-})
-
-export const ChannelSchema = z.object({
-  name: z
-    .string()
-    .min(1, {
-      message: 'Channel name is required.',
-    })
-    .refine(name => name !== 'general', {
-      message: "Channel name cannot be 'general'",
-    }),
-  type: z.nativeEnum(ChannelTypeEnum),
-})
-
-export const ChatItemSchema = z.object({
-  content: z.string().min(1),
-})
-
-export const MessageFileSchema = z.object({
-  content: z.string(),
-  fileUrl: z.string().min(1, {
-    message: 'Attachment is required.',
-  }),
 })

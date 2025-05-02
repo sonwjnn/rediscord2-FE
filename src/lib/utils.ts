@@ -14,6 +14,7 @@ export const errorMapping: Record<string, string> = {
   incorrectPassword: 'Incorrect password!',
   emailExists: 'Email already exists!',
   usernameExists: 'Username already exists!',
+  samePassword: 'New password cannot be the same as the old password!',
 }
 
 export const formatErrorMessage = (message: string | null) => {
