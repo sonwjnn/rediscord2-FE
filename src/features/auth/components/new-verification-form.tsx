@@ -1,6 +1,6 @@
 'use client'
 
-import { CardWrapper } from '@/components/auth/card-wrapper'
+import { CardWrapper } from '@/features/auth/components/card-wrapper'
 import { FormError } from '@/components/form-error'
 import { FormSuccess } from '@/components/form-success'
 import { useSearchParams } from 'next/navigation'
@@ -53,13 +53,13 @@ export const NewVerificationForm = () => {
         setError(undefined)
       })
       .catch(err => {
-        setError(err?.message)
+        setError(formatErrorMessage(err?.message))
       })
   }, [email, resendNewVerification])
 
   useEffect(() => {
     onSubmit()
-  }, [onSubmit, resendLoading])
+  }, [onSubmit])
 
   return (
     <CardWrapper
@@ -72,15 +72,15 @@ export const NewVerificationForm = () => {
       type="verify-email"
     >
       <div className="flex flex-col w-full items-center justify-center">
-        {!success && !error && <Spinner size="icon" />}
+        {!success && !error && <Spinner className="text-primary" />}
         <FormSuccess message={success} />
-        {!success && <FormError message={error} />}
+        {!success && !resendLoading && <FormError message={error} />}
         {!success && (
           <button
             type="button"
             disabled={resendLoading}
             onClick={handleResendNewVerification}
-            className="text-sm font-medium text-primary underline my-3"
+            className="text-sm font-medium text-primary hover:underline my-3 disabled:opacity-50 hover:cursor-pointer"
           >
             Resend email
           </button>

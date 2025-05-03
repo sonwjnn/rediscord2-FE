@@ -1,6 +1,6 @@
 'use client'
 
-import { CardWrapper } from '@/components/auth/card-wrapper'
+import { CardWrapper } from '@/features/auth/components/card-wrapper'
 import { FormError } from '@/components/form-error'
 import { FormSuccess } from '@/components/form-success'
 import { Spinner } from '@/components/spinner'
@@ -27,7 +27,6 @@ export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   // const [showTwoFactor, setShowTwoFactor] = useState(false)
-
   const { onCredentialSignIn, isLoading } = useAuth()
   const searchParams = useSearchParams()
   // const callbackUrl = searchParams?.get('callbackUrl')
@@ -124,10 +123,6 @@ export const LoginForm = () => {
           )}
           <FormError message={error || urlError} />
           <FormSuccess message={success} />
-          {/* <Button type="submit" disabled={isLoading} className="w-full">
-            {isLoading ? <Spinner className="mr-2" /> : null}
-            {showTwoFactor ? 'Confirm' : 'Login'}
-          </Button> */}
           <Button
             className="w-full"
             type="submit"

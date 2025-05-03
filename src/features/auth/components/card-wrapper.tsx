@@ -1,5 +1,5 @@
-import { Header } from '@/components/auth/header'
-import { Social } from '@/components/auth/social'
+import { Header } from '@/features/auth/components/header'
+import { Social } from '@/features/auth/components/social'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import Link from 'next/link'
 import { Separator } from '@/components/ui/separator'

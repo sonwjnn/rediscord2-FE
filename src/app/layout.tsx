@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Mona_Sans } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/providers'
 
-const inter = Inter({ subsets: ['latin'] })
+const mona = Mona_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'sondraw',
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>
+      <body className={`${mona.className}`}>
         <Providers>{children}</Providers>
       </body>
     </html>

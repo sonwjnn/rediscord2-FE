@@ -20,4 +20,17 @@ export const ENDPOINTS = {
     EDIT_BY_ID: (id: string) => `users/${id}`,
     GET_BY_EMAIL: (email: string) => `users/email/${email}`,
   },
+  PROJECTS: {
+    CREATE: 'projects',
+    GET_TEMPLATES: 'projects/templates',
+    GET_MY_PROJECTS: 'projects',
+    GET_BY_ID: (id: string) => `projects/${id}`,
+    EDIT_BY_ID: (id: string) => `projects/${id}`,
+    DELETE_BY_ID: (id: string) => `projects/${id}`,
+    DUPLICATE_BY_ID: (id: string) => `projects/${id}/duplicate`,
+  },
+  SUBSCRIPTIONS: {
+    BILLING: 'subscriptions/billing',
+    CHECKOUT: 'subscriptions/checkout',
+  },
 } as const

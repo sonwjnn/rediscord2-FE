@@ -6,7 +6,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const errorMapping: Record<string, string> = {
-  emailNotVerified: 'Email not verified!',
+  emailNotVerified: 'Email not verified! Please check your email.',
+  emailVerified: 'Email verified!',
   tokenNotFound: 'Invalid token!',
   tokenExpired: 'Token expired!',
   userNotFound: 'User not exists!',

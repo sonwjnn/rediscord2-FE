@@ -1,6 +1,6 @@
 'use client'
 
-import { CardWrapper } from '@/components/auth/card-wrapper'
+import { CardWrapper } from '@/features/auth/components/card-wrapper'
 import { FormError } from '@/components/form-error'
 import { FormSuccess } from '@/components/form-success'
 import { Spinner } from '@/components/spinner'
@@ -14,33 +14,44 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { formatErrorMessage } from '@/lib/utils'
-import { ForgotPasswordSchema } from '@/schemas'
-import { useForgotPassword } from '@/features/auth/api/use-forgot-password'
+import { ResetSchema } from '@/schemas'
+import { useResetPassword } from '@/features/auth/api/use-reset-password'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
-export const ForgotPasswordForm = () => {
-  const { mutateAsync: forgotPassword, isPending: forgotPasswordLoading } =
-    useForgotPassword()
+export const ResetForm = () => {
+  const { mutateAsync: resetPassword, isPending: resetPasswordLoading } =
+    useResetPassword()
+
+  const searchParams = useSearchParams()
+
+  const token = searchParams?.get('token')
 
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
-  const form = useForm<z.infer<typeof ForgotPasswordSchema>>({
-    resolver: zodResolver(ForgotPasswordSchema),
+
+  const form = useForm<z.infer<typeof ResetSchema>>({
+    resolver: zodResolver(ResetSchema),
     defaultValues: {
-      email: '',
+      password: '',
     },
   })
 
-  const onSubmit = (values: z.infer<typeof ForgotPasswordSchema>) => {
+  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
     setError('')
     setSuccess('')
 
-    forgotPassword(values)
+    if (!token) {
+      setError('Missing token!')
+      return
+    }
+
+    resetPassword({ hash: token!, password: values.password })
       .then(() => {
-        setSuccess('Link has been sent to your email!')
+        setSuccess('Reset password successfully!')
         setError(undefined)
       })
       .catch(err => {
@@ -50,22 +61,22 @@ export const ForgotPasswordForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Forgot your password?"
-      headerDescription="Enter your email address and we will send you a password reset link."
-      type="forgot-password"
+      headerLabel="Enter a new password?"
+      headerDescription=" Enter a new password to continue."
+      type="reset-password"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2.5">
           <FormField
             control={form.control}
-            name="email"
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Input
-                    type="email"
-                    disabled={forgotPasswordLoading}
-                    placeholder="Email"
+                    type="password"
+                    disabled={resetPasswordLoading}
+                    placeholder="Password"
                     {...field}
                   />
                 </FormControl>
@@ -79,10 +90,10 @@ export const ForgotPasswordForm = () => {
             className="w-full"
             type="submit"
             size="lg"
-            disabled={forgotPasswordLoading}
+            disabled={resetPasswordLoading}
           >
-            {forgotPasswordLoading ? <Spinner className="mr-2" /> : null}
-            Send
+            {resetPasswordLoading ? <Spinner className="mr-2" /> : null}
+            Reset password
           </Button>
         </form>
       </Form>

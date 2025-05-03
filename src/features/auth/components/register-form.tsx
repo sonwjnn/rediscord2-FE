@@ -1,6 +1,6 @@
 'use client'
 
-import { CardWrapper } from '@/components/auth/card-wrapper'
+import { CardWrapper } from '@/features/auth/components/card-wrapper'
 import { FormError } from '@/components/form-error'
 import { FormSuccess } from '@/components/form-success'
 import { Spinner } from '@/components/spinner'
@@ -41,7 +41,7 @@ export const RegisterForm = () => {
     setSuccess('')
     register(values.username, values.email, values.password)
       .then(() => {
-        setSuccess('Register successfully!')
+        setSuccess('Link has been sent to your email!')
       })
       .catch(err => {
         setError(formatErrorMessage(err?.message))
