@@ -3,7 +3,7 @@
 import { CardWrapper } from '@/features/auth/components/card-wrapper'
 import { FormError } from '@/components/form-error'
 import { FormSuccess } from '@/components/form-success'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { Spinner } from '@/components/spinner'
 import { useResendNewVerification } from '@/features/auth/api/use-resend-new-verification'
@@ -11,6 +11,7 @@ import { useNewVerification } from '@/features/auth/api/use-new-verification'
 import { formatErrorMessage } from '@/lib/utils'
 
 export const NewVerificationForm = () => {
+  const router = useRouter()
   const { mutateAsync: newVerification } = useNewVerification()
   const { mutateAsync: resendNewVerification, isPending: resendLoading } =
     useResendNewVerification()
@@ -63,11 +64,9 @@ export const NewVerificationForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Verify Email"
+      headerLabel="Verify your email account"
       headerDescription={`${
-        !error
-          ? `A verification email has been sent to ${email || 'your email'}.`
-          : ''
+        !error ? `We have sent a link to ${email || 'your email'}.` : ''
       }`}
       type="verify-email"
     >
@@ -76,14 +75,25 @@ export const NewVerificationForm = () => {
         <FormSuccess message={success} />
         {!success && !resendLoading && <FormError message={error} />}
         {!success && (
-          <button
-            type="button"
-            disabled={resendLoading}
-            onClick={handleResendNewVerification}
-            className="text-sm font-medium text-primary hover:underline my-3 disabled:opacity-50 hover:cursor-pointer"
-          >
-            Resend email
-          </button>
+          <div className="text-xs text-primary text-pretty my-3">
+            Didn&apos;t get your email?{' '}
+            <button
+              type="button"
+              disabled={resendLoading}
+              onClick={handleResendNewVerification}
+              className="text-xs underline text-sky-500 cursor-pointer disabled:opacity-50"
+            >
+              Resend the code
+            </button>{' '}
+            or{' '}
+            <button
+              type="button"
+              onClick={() => router.push('/auth/register')}
+              className="text-xs underline text-sky-500 cursor-pointer disabled:opacity-50"
+            >
+              update your email address.
+            </button>
+          </div>
         )}
       </div>
     </CardWrapper>

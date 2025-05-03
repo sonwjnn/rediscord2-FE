@@ -8,6 +8,7 @@ import { useGetMyProjects } from '@/features/projects/api/use-get-my-projects'
 import { useCreateProject } from '@/features/projects/api/use-create-project'
 
 import { Item } from './item'
+import { useCheckout } from '@/features/subscriptions/api/use-checkout'
 
 export default function Home() {
   const [mounted, setMounted] = useState(false)
@@ -15,12 +16,17 @@ export default function Home() {
   const { data, isLoading } = useGetMyProjects(10)
   const { currentUser } = useAuth()
   const { mutateAsync: createProject } = useCreateProject()
+  const { mutateAsync: checkout } = useCheckout()
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
   if (!mounted) return null
+
+  const handleCheckout = () => {
+    checkout()
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
@@ -56,6 +62,7 @@ export default function Home() {
         Create Project
       </button>
       <button onClick={() => getCurrentUserMutation()}>Get User</button>
+      <button onClick={handleCheckout}>Checkout</button>
     </div>
   )
 }

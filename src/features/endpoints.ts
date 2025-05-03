@@ -31,6 +31,6 @@ export const ENDPOINTS = {
   },
   SUBSCRIPTIONS: {
     BILLING: 'subscriptions/billing',
-    CHECKOUT: 'subscriptions/checkout',
+    CHECKOUT: 'payment/create-checkout-session',
   },
 } as const
