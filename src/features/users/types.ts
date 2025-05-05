@@ -31,6 +31,11 @@ export interface UseOAuthOptions {
   onLoginError?: (error: Error) => void
 }
 
+export type FileType = {
+  id: string
+  path: string
+}
+
 export type User = {
   id: string
   name?: string
@@ -38,7 +43,7 @@ export type User = {
   password?: string
   email: string
   emailVerified?: Date
-  image?: string
+  image?: FileType
   isTwoFactorEnabled: boolean
   createdAt: Date
 }

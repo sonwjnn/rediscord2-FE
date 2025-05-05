@@ -30,7 +30,7 @@ export const ENDPOINTS = {
     DUPLICATE_BY_ID: (id: string) => `projects/${id}/duplicate`,
   },
   SUBSCRIPTIONS: {
-    BILLING: 'subscriptions/billing',
+    BILLING: 'payment/billing',
     CHECKOUT: 'payment/create-checkout-session',
   },
 } as const

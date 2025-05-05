@@ -11,11 +11,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useBilling } from '@/features/subscriptions/api/use-billing'
 import { useAuth } from '@/hooks/use-auth'
+import { useS3Image } from '@/hooks/use-s3-image'
 import { CreditCard, Loader2, LogOut, UserCircle } from 'lucide-react'
 
 export const UserButton = () => {
   const mutation = useBilling()
   const { currentUser, logout, isLoading } = useAuth()
+  const { imageUrl } = useS3Image(currentUser?.image?.path)
 
   const onClick = () => {
     mutation.mutate()
@@ -31,7 +33,6 @@ export const UserButton = () => {
 
   const name = currentUser.username || ''
   const email = currentUser.email || ''
-  const imageUrl = currentUser.image || ''
 
   return (
     <DropdownMenu>
