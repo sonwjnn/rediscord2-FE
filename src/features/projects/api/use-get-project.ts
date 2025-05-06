@@ -2,6 +2,9 @@ import { useQuery } from '@tanstack/react-query'
 import { Project } from '@/features/projects/types'
 import privateClient from '@/lib/client/private-client'
 import { ENDPOINTS } from '@/features/endpoints'
+import { AxiosResponse } from 'axios'
+
+export type ResponseType = AxiosResponse<Project>
 
 export const useGetProject = (id: string) => {
   const query = useQuery({

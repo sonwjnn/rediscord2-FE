@@ -4,7 +4,9 @@ import { useMutation } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import { toast } from 'sonner'
 
-type ResponseType = AxiosResponse<string>
+type ResponseType = AxiosResponse<{
+  url: string
+}>
 
 export const useBilling = () => {
   const mutation = useMutation<ResponseType, Error>({
@@ -14,7 +16,7 @@ export const useBilling = () => {
       return response
     },
     onSuccess: ({ data }) => {
-      window.location.href = data
+      window.location.href = data.url
     },
     onError: () => {
       toast.error('Failed to create session')

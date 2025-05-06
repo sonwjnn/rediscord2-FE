@@ -6,7 +6,10 @@ import privateClient from '@/lib/client/private-client'
 import { AxiosResponse } from 'axios'
 
 type ResponseType = AxiosResponse<Project>
-type RequestType = Omit<Project, 'id' | 'userId' | 'createdAt' | 'updatedAt'>
+type RequestType = Omit<
+  Project,
+  'id' | 'userId' | 'createdAt' | 'updatedAt' | 'name'
+>
 
 export const useUpdateProject = (id: string) => {
   const queryClient = useQueryClient()

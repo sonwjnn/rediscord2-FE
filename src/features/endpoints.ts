@@ -32,5 +32,6 @@ export const ENDPOINTS = {
   SUBSCRIPTIONS: {
     BILLING: 'payment/billing',
     CHECKOUT: 'payment/create-checkout-session',
+    GET_CURRENT: 'payment/subscription',
   },
 } as const

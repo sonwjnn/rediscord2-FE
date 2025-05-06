@@ -7,7 +7,7 @@ import { AxiosResponse } from 'axios'
 import privateClient from '@/lib/client/private-client'
 import { ENDPOINTS } from '@/features/endpoints'
 
-export type ResponseType = AxiosResponse<GetTemplatesResponse>
+export type ResponseType = AxiosResponse<GetTemplatesResponse>['data']
 
 export const useGetTemplates = (apiQuery: GetTemplatesRequest) => {
   const query = useQuery({
@@ -24,7 +24,7 @@ export const useGetTemplates = (apiQuery: GetTemplatesRequest) => {
         { params: apiQuery },
       )
 
-      return response
+      return response.data
     },
   })
 
