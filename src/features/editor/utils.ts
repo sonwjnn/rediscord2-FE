@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4'
+import { v4 as uuidv4 } from 'uuid'
 import { fabric } from 'fabric'
 import type { RGBColor } from 'react-color'
 
@@ -19,7 +19,7 @@ export function downloadFile(file: string, type: string) {
   const anchorElement = document.createElement('a')
 
   anchorElement.href = file
-  anchorElement.download = `${uuid()}.${type}`
+  anchorElement.download = `${uuidv4()}.${type}`
   document.body.appendChild(anchorElement)
   anchorElement.click()
   anchorElement.remove()
