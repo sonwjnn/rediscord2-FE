@@ -1,22 +1,26 @@
-import { Navbar } from "./navbar";
-import { Sidebar } from "./sidebar";
+import { DashboardSidebar } from '@/components/dashboard-sidebar'
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar'
 
 interface DashboardLayoutProps {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-  return ( 
-    <div className="bg-muted h-full">
-      <Sidebar />
-      <div className="lg:pl-[300px] flex flex-col h-full">
-        <Navbar />
-        <main className="bg-white flex-1 overflow-auto p-8 lg:rounded-tl-2xl">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
-};
- 
-export default DashboardLayout;
+  return (
+    <SidebarProvider>
+      <DashboardSidebar />
+      <SidebarInset>
+        <div className="w-fit flex items-center gap-2 px-4 my-4">
+          <SidebarTrigger className="-ml-1" />
+        </div>
+        <main className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}
+
+export default DashboardLayout

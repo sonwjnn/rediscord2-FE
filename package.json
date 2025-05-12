@@ -54,6 +54,7 @@
     "input-otp": "^1.4.2",
     "jose": "^6.0.10",
     "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
     "lucide-react": "^0.488.0",
     "material-colors": "^1.2.6",
     "next": "15.2.4",

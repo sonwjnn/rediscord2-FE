@@ -5,11 +5,16 @@ import { ENDPOINTS } from '@/features/endpoints'
 import privateClient from '@/lib/client/private-client'
 import { AxiosResponse } from 'axios'
 
-type ResponseType = AxiosResponse<Project>
-type RequestType = Omit<
+type BaseUpdateFields = Omit<
   Project,
   'id' | 'userId' | 'createdAt' | 'updatedAt' | 'name'
 >
+
+type ResponseType = AxiosResponse<Project>
+
+type RequestType = BaseUpdateFields & {
+  name?: string
+}
 
 export const useUpdateProject = (id: string) => {
   const queryClient = useQueryClient()

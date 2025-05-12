@@ -11,7 +11,7 @@ type ResponseType = AxiosResponse<{
 export const useBilling = () => {
   const mutation = useMutation<ResponseType, Error>({
     mutationFn: async () => {
-      const response = await privateClient.get(ENDPOINTS.SUBSCRIPTIONS.BILLING)
+      const response = await privateClient.post(ENDPOINTS.SUBSCRIPTIONS.BILLING)
 
       return response
     },

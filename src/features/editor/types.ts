@@ -58,6 +58,11 @@ export const fonts = [
   'Lucida Sans Unicode',
   'Geneva',
   'Lucida Console',
+  'Poppins',
+  'CanvaSans',
+  'Segoe UI',
+  'Open Sans',
+  'Montserrat',
 ]
 
 export const selectionDependentTools = [
@@ -189,7 +194,9 @@ export type BuildEditorProps = {
   autoZoom: () => void
   copy: () => void
   paste: () => void
+  zoomTo: (level: number) => void
   canvas: fabric.Canvas
+  zoomLevel: number
   fillColor: string
   strokeColor: string
   strokeWidth: number
@@ -214,8 +221,8 @@ export interface Editor {
   canUndo: () => boolean
   canRedo: () => boolean
   autoZoom: () => void
-  zoomIn: () => void
-  zoomOut: () => void
+  zoomTo: (level: number) => void
+  getZoomLevel: () => number
   getWorkspace: () => fabric.Object | undefined
   changeBackground: (value: string) => void
   changeSize: (value: { width: number; height: number }) => void

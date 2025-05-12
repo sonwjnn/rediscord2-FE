@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { Loader, TriangleAlert } from 'lucide-react'
 
-// import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
+import { usePaywall } from '@/features/subscriptions/hooks/use-paywall'
 
 import { useGetTemplates } from '@/features/projects/api/use-get-templates'
 import { useCreateProject } from '@/features/projects/api/use-create-project'
@@ -12,9 +12,7 @@ import { TemplateCard } from './template-card'
 import { Project } from '@/features/projects/types'
 
 export const TemplatesSection = () => {
-  // const { shouldBlock, triggerPaywall } = usePaywall();
-  const shouldBlock = false
-  const triggerPaywall = () => {}
+  const { shouldBlock, triggerPaywall } = usePaywall()
 
   const router = useRouter()
   const mutation = useCreateProject()

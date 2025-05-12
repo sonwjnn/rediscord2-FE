@@ -23,3 +23,9 @@ export const formatErrorMessage = (message: string | null) => {
 
   return errorMapping[message] || message
 }
+
+export const getS3ImageUrlByPath = (path: string) => {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_S3_URL || 'https://sondraw.s3.amazonaws.com'
+  return `${baseUrl}/${path}`
+}

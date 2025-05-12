@@ -17,7 +17,6 @@ import { CreditCard, Loader2, LogOut, UserCircle } from 'lucide-react'
 export const UserButton = () => {
   const mutation = useBilling()
   const { currentUser, logout, isLoading } = useAuth()
-  const { imageUrl } = useS3Image(currentUser?.image?.path)
 
   const onClick = () => {
     mutation.mutate()
@@ -33,6 +32,7 @@ export const UserButton = () => {
 
   const name = currentUser.username || ''
   const email = currentUser.email || ''
+  const imageUrl = currentUser.imageUrl || ''
 
   return (
     <DropdownMenu>

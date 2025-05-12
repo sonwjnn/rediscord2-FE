@@ -36,6 +36,11 @@ export type FileType = {
   path: string
 }
 
+export enum UserFileTypeEnum {
+  DESIGN,
+  PROFILE,
+}
+
 export type User = {
   id: string
   name?: string
@@ -43,7 +48,7 @@ export type User = {
   password?: string
   email: string
   emailVerified?: Date
-  image?: FileType
+  imageUrl?: string
   isTwoFactorEnabled: boolean
   createdAt: Date
 }

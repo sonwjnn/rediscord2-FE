@@ -34,4 +34,16 @@ export const ENDPOINTS = {
     CHECKOUT: 'payment/create-checkout-session',
     GET_CURRENT: 'payment/subscription',
   },
+  USER_FILES: {
+    UPLOAD: 'user-files/upload',
+    GET_BY_USER_ID: 'user-files',
+  },
+  UNSPLASH: {
+    GET_RANDOM: 'unsplash/random',
+    GET_BY_KEYWORD: 'unsplash/search',
+  },
+  AI: {
+    REMOVE_BG: 'replicate/remove-bg',
+    GENERATE_IMAGE: 'replicate/generate-image',
+  },
 } as const
