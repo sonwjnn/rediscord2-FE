@@ -37,8 +37,8 @@ export type FileType = {
 }
 
 export enum UserFileTypeEnum {
-  DESIGN,
-  PROFILE,
+  DESIGN = 'DESIGN',
+  PROFILE = 'PROFILE',
 }
 
 export type User = {

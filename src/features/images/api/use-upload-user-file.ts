@@ -19,9 +19,10 @@ export const useUploadUserFile = () => {
   const queryClient = useQueryClient()
 
   const mutation = useMutation<ResponseType, Error, UploadUserFileRequest>({
-    mutationFn: async ({ file }) => {
+    mutationFn: async ({ file, fileType }) => {
       const formData = new FormData()
       formData.append('file', file)
+      formData.append('fileType', fileType)
 
       const response = await privateClient.post<UserFile>(
         ENDPOINTS.USER_FILES.UPLOAD,
