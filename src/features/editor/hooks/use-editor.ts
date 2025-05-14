@@ -42,9 +42,11 @@ const buildEditor = ({
   canUndo,
   autoZoom,
   zoomTo,
+  zoomIn,
+  zoomOut,
+  zoomToFill,
   copy,
   paste,
-  zoomLevel,
   canvas,
   fillColor,
   fontFamily,
@@ -150,6 +152,9 @@ const buildEditor = ({
     canRedo,
     autoZoom,
     zoomTo,
+    zoomIn,
+    zoomOut,
+    zoomToFill,
     getWorkspace,
     changeSize: (value: { width: number; height: number }) => {
       const workspace = getWorkspace()
@@ -590,7 +595,6 @@ const buildEditor = ({
 
       return value
     },
-    getZoomLevel: () => zoomLevel,
     selectedObjects,
   }
 }
@@ -625,7 +629,7 @@ export const useEditor = ({
       saveCallback,
     })
 
-  const { zoomLevel, zoomTo } = useZoom({ canvas, container })
+  const { zoomIn, zoomOut, zoomToFill, zoomTo } = useZoom({ canvas, container })
 
   const { copy, paste } = useClipboard({ canvas })
 
@@ -648,6 +652,7 @@ export const useEditor = ({
     paste,
     save,
     canvas,
+    container,
   })
 
   useLoadState({
@@ -667,8 +672,10 @@ export const useEditor = ({
         canUndo,
         canRedo,
         autoZoom,
-        zoomLevel,
         zoomTo,
+        zoomIn,
+        zoomOut,
+        zoomToFill,
         copy,
         paste,
         canvas,
@@ -697,7 +704,9 @@ export const useEditor = ({
     copy,
     paste,
     zoomTo,
-    zoomLevel,
+    zoomIn,
+    zoomOut,
+    zoomToFill,
     canvas,
     fillColor,
     strokeWidth,

@@ -1,14 +1,16 @@
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon } from 'lucide-react'
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { useState } from 'react'
+import { Hint } from '@/components/hint'
 
 interface SidebarItemProps {
-  icon: LucideIcon;
-  label: string;
-  isActive?: boolean;
-  onClick: () => void;
-};
+  icon: LucideIcon
+  label: string
+  isActive?: boolean
+  onClick: () => void
+}
 
 export const SidebarItem = ({
   icon: Icon,
@@ -17,18 +19,26 @@ export const SidebarItem = ({
   onClick,
 }: SidebarItemProps) => {
   return (
-    <Button
-      variant="ghost"
-      onClick={onClick}
-      className={cn(
-        "w-full h-full aspect-video p-3 py-4 flex flex-col rounded-none",
-        isActive && "bg-muted text-primary"
-      )}
-    >
-      <Icon className="size-5 stroke-2 shrink-0" />
-      <span className="mt-2 text-xs">
-        {label}
-      </span>
-    </Button>
-  );
-};
+    <Hint label={label} side="right" sideOffset={12}>
+      <Button
+        variant="ghost"
+        onClick={onClick}
+        className={cn(
+          'group size-[44px] mx-2 rounded-md flex flex-col hover:bg-[#0099cc] relative',
+          'before:content-[""] before:block before:h-0 before:w-[8px] before:rounded-[8px]',
+          'before:absolute before:left-[-12px] before:top-1/2 before:-translate-y-1/2',
+          'before:transition-all before:duration-150 before:ease-linear ',
+          isActive &&
+            'bg-[#36383d] text-white before:bg-[#0099cc] before:h-[70%] hover:bg-[#36383d] hover:text-white',
+        )}
+      >
+        <Icon
+          className={cn(
+            'size-6 stroke-2 shrink-0 text-white/60 group-hover:text-white',
+            isActive && 'text-white',
+          )}
+        />
+      </Button>
+    </Hint>
+  )
+}

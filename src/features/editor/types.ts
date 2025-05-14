@@ -192,11 +192,13 @@ export type BuildEditorProps = {
   canUndo: () => boolean
   canRedo: () => boolean
   autoZoom: () => void
+  zoomTo: (level: number) => void
+  zoomIn: () => void
+  zoomOut: () => void
+  zoomToFill: () => void
   copy: () => void
   paste: () => void
-  zoomTo: (level: number) => void
   canvas: fabric.Canvas
-  zoomLevel: number
   fillColor: string
   strokeColor: string
   strokeWidth: number
@@ -222,7 +224,9 @@ export interface Editor {
   canRedo: () => boolean
   autoZoom: () => void
   zoomTo: (level: number) => void
-  getZoomLevel: () => number
+  zoomIn: () => void
+  zoomOut: () => void
+  zoomToFill: () => void
   getWorkspace: () => fabric.Object | undefined
   changeBackground: (value: string) => void
   changeSize: (value: { width: number; height: number }) => void

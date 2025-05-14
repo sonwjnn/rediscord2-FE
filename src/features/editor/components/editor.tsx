@@ -39,7 +39,7 @@ export const Editor = ({ initialData }: EditorProps) => {
   const debouncedSave = useCallback(
     debounce((values: { json: string; height: number; width: number }) => {
       mutate(values)
-    }, 500),
+    }, 1000),
     [mutate],
   )
 
@@ -105,7 +105,7 @@ export const Editor = ({ initialData }: EditorProps) => {
         activeTool={activeTool}
         onChangeActiveTool={onChangeActiveTool}
       />
-      <div className="absolute h-[calc(100%-68px)] w-full top-[68px] flex">
+      <div className="absolute h-[calc(100%-48px)] w-full top-[48px] flex">
         <Sidebar
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
@@ -180,7 +180,7 @@ export const Editor = ({ initialData }: EditorProps) => {
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
         />
-        <main className="bg-gray-100 flex-1 overflow-auto relative flex flex-col">
+        <main className="bg-[#171719] flex-1 overflow-auto relative flex flex-col">
           <Toolbar
             editor={editor}
             activeTool={activeTool}
@@ -188,7 +188,7 @@ export const Editor = ({ initialData }: EditorProps) => {
             key={JSON.stringify(editor?.canvas.getActiveObject())}
           />
           <div
-            className="flex-1 h-[calc(100%-124px)] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900"
+            className="flex-1 h-[calc(100%-124px)] bg-[#171719]"
             ref={containerRef}
           >
             <canvas ref={canvasRef} />
