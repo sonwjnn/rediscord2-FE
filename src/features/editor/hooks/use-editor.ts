@@ -44,7 +44,7 @@ const buildEditor = ({
   zoomTo,
   zoomIn,
   zoomOut,
-  zoomToFill,
+  resetZoom,
   copy,
   paste,
   canvas,
@@ -154,7 +154,7 @@ const buildEditor = ({
     zoomTo,
     zoomIn,
     zoomOut,
-    zoomToFill,
+    resetZoom,
     getWorkspace,
     changeSize: (value: { width: number; height: number }) => {
       const workspace = getWorkspace()
@@ -629,11 +629,14 @@ export const useEditor = ({
       saveCallback,
     })
 
-  const { zoomIn, zoomOut, zoomToFill, zoomTo } = useZoom({ canvas, container })
+  const { zoomIn, zoomOut, zoomTo, resetZoom, autoZoom } = useZoom({
+    canvas,
+    container,
+  })
 
   const { copy, paste } = useClipboard({ canvas })
 
-  const { autoZoom } = useAutoResize({
+  useAutoResize({
     canvas,
     container,
   })
@@ -675,7 +678,7 @@ export const useEditor = ({
         zoomTo,
         zoomIn,
         zoomOut,
-        zoomToFill,
+        resetZoom,
         copy,
         paste,
         canvas,
@@ -700,13 +703,13 @@ export const useEditor = ({
     undo,
     redo,
     save,
+    resetZoom,
     autoZoom,
     copy,
     paste,
     zoomTo,
     zoomIn,
     zoomOut,
-    zoomToFill,
     canvas,
     fillColor,
     strokeWidth,

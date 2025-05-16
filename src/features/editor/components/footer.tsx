@@ -43,46 +43,38 @@ export const Footer = ({ editor }: FooterProps) => {
 
   return (
     <footer className="h-[50px] bg-transparent fixed right-0 bottom-0 w-full flex items-center overflow-x-auto z-[49] p-2 gap-x-1 shrink-0 px-4 flex-row-reverse">
-      <Hint label="Reset" side="top" sideOffset={10}>
-        <Button
-          onClick={() => editor?.autoZoom()}
-          size="icon"
-          variant="tools"
-          className="h-full"
-        >
-          <Minimize className="size-4" />
-        </Button>
-      </Hint>
-      <Hint label="Fill" side="top" sideOffset={10}>
-        <Button
-          onClick={() => editor?.zoomToFill()}
-          size="icon"
-          variant="tools"
-          className="h-full"
-        >
-          <Expand className="size-4" />
-        </Button>
-      </Hint>
-      <Hint label="Zoom in" side="top" sideOffset={10}>
-        <Button
-          onClick={() => editor?.zoomIn()}
-          size="icon"
-          variant="tools"
-          className="h-full"
-        >
-          <ZoomIn className="size-4" />
-        </Button>
-      </Hint>
-      <Hint label="Zoom out" side="top" sideOffset={10}>
-        <Button
-          onClick={() => editor?.zoomOut()}
-          size="icon"
-          variant="tools"
-          className="h-full"
-        >
-          <ZoomOut className="size-4" />
-        </Button>
-      </Hint>
+      <Button
+        onClick={() => editor?.autoZoom()}
+        size="icon"
+        variant="tools"
+        className="h-full"
+      >
+        <Minimize className="size-4" />
+      </Button>
+      <Button
+        onClick={() => editor?.resetZoom()}
+        size="icon"
+        variant="tools"
+        className="h-full"
+      >
+        <Expand className="size-4" />
+      </Button>
+      <Button
+        onClick={() => editor?.zoomIn()}
+        size="icon"
+        variant="tools"
+        className="h-full"
+      >
+        <ZoomIn className="size-4" />
+      </Button>
+      <Button
+        onClick={() => editor?.zoomOut()}
+        size="icon"
+        variant="tools"
+        className="h-full"
+      >
+        <ZoomOut className="size-4" />
+      </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="tools" className="text-xs h-8 px-2">

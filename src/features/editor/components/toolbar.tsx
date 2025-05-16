@@ -1,58 +1,53 @@
-import { useState } from "react";
+import { useState } from 'react'
 
-import { 
-  FaBold, 
-  FaItalic, 
-  FaStrikethrough, 
-  FaUnderline
-} from "react-icons/fa";
-import { TbColorFilter } from "react-icons/tb";
-import { BsBorderWidth } from "react-icons/bs";
-import { RxTransparencyGrid } from "react-icons/rx";
-import { 
-  ArrowUp, 
-  ArrowDown, 
-  ChevronDown, 
-  AlignLeft, 
-  AlignCenter, 
+import { FaBold, FaItalic, FaStrikethrough, FaUnderline } from 'react-icons/fa'
+import { TbColorFilter } from 'react-icons/tb'
+import { BsBorderWidth } from 'react-icons/bs'
+import { RxTransparencyGrid } from 'react-icons/rx'
+import {
+  ArrowUp,
+  ArrowDown,
+  ChevronDown,
+  AlignLeft,
+  AlignCenter,
   AlignRight,
   Trash,
   SquareSplitHorizontal,
-  Copy
-} from "lucide-react";
+  Copy,
+} from 'lucide-react'
 
-import { isTextType } from "@/features/editor/utils";
-import { FontSizeInput } from "@/features/editor/components/font-size-input";
-import { 
-  ActiveTool, 
-  Editor, 
-  FONT_SIZE, 
-  FONT_WEIGHT
-} from "@/features/editor/types";
+import { isTextType } from '@/features/editor/utils'
+import { FontSizeInput } from '@/features/editor/components/font-size-input'
+import {
+  ActiveTool,
+  Editor,
+  FONT_SIZE,
+  FONT_WEIGHT,
+} from '@/features/editor/types'
 
-import { cn } from "@/lib/utils";
-import { Hint } from "@/components/hint";
-import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils'
+import { Hint } from '@/components/hint'
+import { Button } from '@/components/ui/button'
 
 interface ToolbarProps {
-  editor: Editor | undefined;
-  activeTool: ActiveTool;
-  onChangeActiveTool: (tool: ActiveTool) => void;
-};
+  editor: Editor | undefined
+  activeTool: ActiveTool
+  onChangeActiveTool: (tool: ActiveTool) => void
+}
 
 export const Toolbar = ({
   editor,
   activeTool,
   onChangeActiveTool,
 }: ToolbarProps) => {
-  const initialFillColor = editor?.getActiveFillColor();
-  const initialStrokeColor = editor?.getActiveStrokeColor();
-  const initialFontFamily = editor?.getActiveFontFamily();
-  const initialFontWeight = editor?.getActiveFontWeight() || FONT_WEIGHT;
-  const initialFontStyle = editor?.getActiveFontStyle();
-  const initialFontLinethrough = editor?.getActiveFontLinethrough();
-  const initialFontUnderline = editor?.getActiveFontUnderline();
-  const initialTextAlign = editor?.getActiveTextAlign();
+  const initialFillColor = editor?.getActiveFillColor()
+  const initialStrokeColor = editor?.getActiveStrokeColor()
+  const initialFontFamily = editor?.getActiveFontFamily()
+  const initialFontWeight = editor?.getActiveFontWeight() || FONT_WEIGHT
+  const initialFontStyle = editor?.getActiveFontStyle()
+  const initialFontLinethrough = editor?.getActiveFontLinethrough()
+  const initialFontUnderline = editor?.getActiveFontUnderline()
+  const initialTextAlign = editor?.getActiveTextAlign()
   const initialFontSize = editor?.getActiveFontSize() || FONT_SIZE
 
   const [properties, setProperties] = useState({
@@ -65,113 +60,109 @@ export const Toolbar = ({
     fontUnderline: initialFontUnderline,
     textAlign: initialTextAlign,
     fontSize: initialFontSize,
-  });
+  })
 
-  const selectedObject = editor?.selectedObjects[0];
-  const selectedObjectType = editor?.selectedObjects[0]?.type;
+  const selectedObject = editor?.selectedObjects[0]
+  const selectedObjectType = editor?.selectedObjects[0]?.type
 
-  const isText = isTextType(selectedObjectType);
-  const isImage = selectedObjectType === "image";
+  const isText = isTextType(selectedObjectType)
+  const isImage = selectedObjectType === 'image'
 
   const onChangeFontSize = (value: number) => {
     if (!selectedObject) {
-      return;
+      return
     }
 
-    editor?.changeFontSize(value);
-    setProperties((current) => ({
+    editor?.changeFontSize(value)
+    setProperties(current => ({
       ...current,
       fontSize: value,
-    }));
-  };
+    }))
+  }
 
   const onChangeTextAlign = (value: string) => {
     if (!selectedObject) {
-      return;
+      return
     }
 
-    editor?.changeTextAlign(value);
-    setProperties((current) => ({
+    editor?.changeTextAlign(value)
+    setProperties(current => ({
       ...current,
       textAlign: value,
-    }));
-  };
+    }))
+  }
 
   const toggleBold = () => {
     if (!selectedObject) {
-      return;
+      return
     }
 
-    const newValue = properties.fontWeight > 500 ? 500 : 700;
+    const newValue = properties.fontWeight > 500 ? 500 : 700
 
-    editor?.changeFontWeight(newValue);
-    setProperties((current) => ({
+    editor?.changeFontWeight(newValue)
+    setProperties(current => ({
       ...current,
       fontWeight: newValue,
-    }));
-  };
+    }))
+  }
 
   const toggleItalic = () => {
     if (!selectedObject) {
-      return;
+      return
     }
 
-    const isItalic = properties.fontStyle === "italic";
-    const newValue = isItalic ? "normal" : "italic";
+    const isItalic = properties.fontStyle === 'italic'
+    const newValue = isItalic ? 'normal' : 'italic'
 
-    editor?.changeFontStyle(newValue);
-    setProperties((current) => ({
+    editor?.changeFontStyle(newValue)
+    setProperties(current => ({
       ...current,
       fontStyle: newValue,
-    }));
-  };
+    }))
+  }
 
   const toggleLinethrough = () => {
     if (!selectedObject) {
-      return;
+      return
     }
 
-    const newValue = properties.fontLinethrough ? false : true;
+    const newValue = properties.fontLinethrough ? false : true
 
-    editor?.changeFontLinethrough(newValue);
-    setProperties((current) => ({
+    editor?.changeFontLinethrough(newValue)
+    setProperties(current => ({
       ...current,
       fontLinethrough: newValue,
-    }));
-  };
+    }))
+  }
 
   const toggleUnderline = () => {
     if (!selectedObject) {
-      return;
+      return
     }
 
-    const newValue = properties.fontUnderline ? false : true;
+    const newValue = properties.fontUnderline ? false : true
 
-    editor?.changeFontUnderline(newValue);
-    setProperties((current) => ({
+    editor?.changeFontUnderline(newValue)
+    setProperties(current => ({
       ...current,
       fontUnderline: newValue,
-    }));
-  };
+    }))
+  }
 
   if (editor?.selectedObjects.length === 0) {
-    return (
-      <div className="shrink-0 h-[56px] border-b bg-white w-full flex items-center overflow-x-auto z-[49] p-2 gap-x-2" />
-    );
+    return null
   }
 
   return (
-    <div className="shrink-0 h-[56px] border-b bg-white w-full flex items-center overflow-x-auto z-[49] p-2 gap-x-2">
+    <div className="shrink-0 h-[56px] bg-[#292c31] w-full flex items-center overflow-x-auto z-[49] p-2 gap-x-2">
       {!isImage && (
         <div className="flex items-center h-full justify-center">
           <Hint label="Color" side="bottom" sideOffset={5}>
             <Button
-              onClick={() => onChangeActiveTool("fill")}
+              onClick={() => onChangeActiveTool('fill')}
               size="icon"
-              variant="ghost"
-              className={cn(
-                activeTool === "fill" && "bg-gray-100"
-              )}
+              variant="toolsGhost"
+              className={cn(activeTool === 'fill' && 'bg-[#424549]')}
             >
               <div
                 className="rounded-sm size-4 border"
@@ -185,12 +176,10 @@ export const Toolbar = ({
         <div className="flex items-center h-full justify-center">
           <Hint label="Stroke color" side="bottom" sideOffset={5}>
             <Button
-              onClick={() => onChangeActiveTool("stroke-color")}
+              onClick={() => onChangeActiveTool('stroke-color')}
               size="icon"
-              variant="ghost"
-              className={cn(
-                activeTool === "stroke-color" && "bg-gray-100"
-              )}
+              variant="toolsGhost"
+              className={cn(activeTool === 'stroke-color' && 'bg-[#424549]')}
             >
               <div
                 className="rounded-sm size-4 border-2 bg-white"
@@ -204,12 +193,10 @@ export const Toolbar = ({
         <div className="flex items-center h-full justify-center">
           <Hint label="Stroke width" side="bottom" sideOffset={5}>
             <Button
-              onClick={() => onChangeActiveTool("stroke-width")}
+              onClick={() => onChangeActiveTool('stroke-width')}
               size="icon"
-              variant="ghost"
-              className={cn(
-                activeTool === "stroke-width" && "bg-gray-100"
-              )}
+              variant="toolsGhost"
+              className={cn(activeTool === 'stroke-width' && 'bg-[#424549]')}
             >
               <BsBorderWidth className="size-4" />
             </Button>
@@ -220,12 +207,12 @@ export const Toolbar = ({
         <div className="flex items-center h-full justify-center">
           <Hint label="Font" side="bottom" sideOffset={5}>
             <Button
-              onClick={() => onChangeActiveTool("font")}
+              onClick={() => onChangeActiveTool('font')}
               size="icon"
-              variant="ghost"
+              variant="toolsGhost"
               className={cn(
-                "w-auto px-2 text-sm",
-                activeTool === "font" && "bg-gray-100"
+                'w-auto px-2 text-sm',
+                activeTool === 'font' && 'bg-[#424549]',
               )}
             >
               <div className="max-w-[100px] truncate">
@@ -242,10 +229,8 @@ export const Toolbar = ({
             <Button
               onClick={toggleBold}
               size="icon"
-              variant="ghost"
-              className={cn(
-                properties.fontWeight > 500 && "bg-gray-100"
-              )}
+              variant="toolsGhost"
+              className={cn(properties.fontWeight > 500 && 'bg-[#424549]')}
             >
               <FaBold className="size-4" />
             </Button>
@@ -258,9 +243,9 @@ export const Toolbar = ({
             <Button
               onClick={toggleItalic}
               size="icon"
-              variant="ghost"
+              variant="toolsGhost"
               className={cn(
-                properties.fontStyle === "italic" && "bg-gray-100"
+                properties.fontStyle === 'italic' && 'bg-[#424549]',
               )}
             >
               <FaItalic className="size-4" />
@@ -274,10 +259,8 @@ export const Toolbar = ({
             <Button
               onClick={toggleUnderline}
               size="icon"
-              variant="ghost"
-              className={cn(
-                properties.fontUnderline && "bg-gray-100"
-              )}
+              variant="toolsGhost"
+              className={cn(properties.fontUnderline && 'bg-[#424549]')}
             >
               <FaUnderline className="size-4" />
             </Button>
@@ -290,10 +273,8 @@ export const Toolbar = ({
             <Button
               onClick={toggleLinethrough}
               size="icon"
-              variant="ghost"
-              className={cn(
-                properties.fontLinethrough && "bg-gray-100"
-              )}
+              variant="toolsGhost"
+              className={cn(properties.fontLinethrough && 'bg-[#424549]')}
             >
               <FaStrikethrough className="size-4" />
             </Button>
@@ -304,12 +285,10 @@ export const Toolbar = ({
         <div className="flex items-center h-full justify-center">
           <Hint label="Align left" side="bottom" sideOffset={5}>
             <Button
-              onClick={() => onChangeTextAlign("left")}
+              onClick={() => onChangeTextAlign('left')}
               size="icon"
-              variant="ghost"
-              className={cn(
-                properties.textAlign === "left" && "bg-gray-100"
-              )}
+              variant="toolsGhost"
+              className={cn(properties.textAlign === 'left' && 'bg-[#424549]')}
             >
               <AlignLeft className="size-4" />
             </Button>
@@ -320,11 +299,11 @@ export const Toolbar = ({
         <div className="flex items-center h-full justify-center">
           <Hint label="Align center" side="bottom" sideOffset={5}>
             <Button
-              onClick={() => onChangeTextAlign("center")}
+              onClick={() => onChangeTextAlign('center')}
               size="icon"
-              variant="ghost"
+              variant="toolsGhost"
               className={cn(
-                properties.textAlign === "center" && "bg-gray-100"
+                properties.textAlign === 'center' && 'bg-[#424549]',
               )}
             >
               <AlignCenter className="size-4" />
@@ -336,12 +315,10 @@ export const Toolbar = ({
         <div className="flex items-center h-full justify-center">
           <Hint label="Align right" side="bottom" sideOffset={5}>
             <Button
-              onClick={() => onChangeTextAlign("right")}
+              onClick={() => onChangeTextAlign('right')}
               size="icon"
-              variant="ghost"
-              className={cn(
-                properties.textAlign === "right" && "bg-gray-100"
-              )}
+              variant="toolsGhost"
+              className={cn(properties.textAlign === 'right' && 'bg-[#424549]')}
             >
               <AlignRight className="size-4" />
             </Button>
@@ -350,22 +327,20 @@ export const Toolbar = ({
       )}
       {isText && (
         <div className="flex items-center h-full justify-center">
-         <FontSizeInput
+          <FontSizeInput
             value={properties.fontSize}
             onChange={onChangeFontSize}
-         />
+          />
         </div>
       )}
       {isImage && (
         <div className="flex items-center h-full justify-center">
           <Hint label="Filters" side="bottom" sideOffset={5}>
             <Button
-              onClick={() => onChangeActiveTool("filter")}
+              onClick={() => onChangeActiveTool('filter')}
               size="icon"
-              variant="ghost"
-              className={cn(
-                activeTool === "filter" && "bg-gray-100"
-              )}
+              variant="toolsGhost"
+              className={cn(activeTool === 'filter' && 'bg-[#424549]')}
             >
               <TbColorFilter className="size-4" />
             </Button>
@@ -376,12 +351,10 @@ export const Toolbar = ({
         <div className="flex items-center h-full justify-center">
           <Hint label="Remove background" side="bottom" sideOffset={5}>
             <Button
-              onClick={() => onChangeActiveTool("remove-bg")}
+              onClick={() => onChangeActiveTool('remove-bg')}
               size="icon"
-              variant="ghost"
-              className={cn(
-                activeTool === "remove-bg" && "bg-gray-100"
-              )}
+              variant="toolsGhost"
+              className={cn(activeTool === 'remove-bg' && 'bg-[#424549]')}
             >
               <SquareSplitHorizontal className="size-4" />
             </Button>
@@ -393,7 +366,7 @@ export const Toolbar = ({
           <Button
             onClick={() => editor?.bringForward()}
             size="icon"
-            variant="ghost"
+            variant="toolsGhost"
           >
             <ArrowUp className="size-4" />
           </Button>
@@ -404,7 +377,7 @@ export const Toolbar = ({
           <Button
             onClick={() => editor?.sendBackwards()}
             size="icon"
-            variant="ghost"
+            variant="toolsGhost"
           >
             <ArrowDown className="size-4" />
           </Button>
@@ -413,10 +386,10 @@ export const Toolbar = ({
       <div className="flex items-center h-full justify-center">
         <Hint label="Opacity" side="bottom" sideOffset={5}>
           <Button
-            onClick={() => onChangeActiveTool("opacity")}
+            onClick={() => onChangeActiveTool('opacity')}
             size="icon"
-            variant="ghost"
-            className={cn(activeTool === "opacity" && "bg-gray-100")}
+            variant="toolsGhost"
+            className={cn(activeTool === 'opacity' && 'bg-[#424549]')}
           >
             <RxTransparencyGrid className="size-4" />
           </Button>
@@ -426,11 +399,11 @@ export const Toolbar = ({
         <Hint label="Duplicate" side="bottom" sideOffset={5}>
           <Button
             onClick={() => {
-              editor?.onCopy();
-              editor?.onPaste();
+              editor?.onCopy()
+              editor?.onPaste()
             }}
             size="icon"
-            variant="ghost"
+            variant="toolsGhost"
           >
             <Copy className="size-4" />
           </Button>
@@ -441,7 +414,7 @@ export const Toolbar = ({
           <Button
             onClick={() => editor?.delete()}
             size="icon"
-            variant="ghost"
+            variant="toolsGhost"
             className="text-red-600"
           >
             <Trash className="size-4" />
@@ -449,5 +422,5 @@ export const Toolbar = ({
         </Hint>
       </div>
     </div>
-  );
-};
+  )
+}

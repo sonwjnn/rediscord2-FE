@@ -85,48 +85,22 @@ export const useHotkeys = ({
     }
   })
 
-  useEffect(() => {
-    const preventBrowserZoom = (e: WheelEvent) => {
-      if (e.ctrlKey || e.metaKey) {
-        e.preventDefault()
-        return false
-      }
-    }
-
-    if (container) {
-      container.addEventListener('wheel', preventBrowserZoom, {
-        passive: false,
-      })
-    }
-
-    return () => {
-      if (container) {
-        container.removeEventListener('wheel', preventBrowserZoom)
-      }
-    }
-  }, [container])
-
   useEvent('wheel', (event: WheelEvent) => {
     if (!canvas || !container) return
 
     if (!container.contains(event.target as Node)) return
 
-    if (event.ctrlKey || event.metaKey) {
-      event.preventDefault()
+    event.preventDefault()
 
-      const zoomLevel = canvas.getZoom() * 100
-
-      const delta = event.deltaY
-
-      const zoomStep = 1
-      const newZoomLevel =
-        delta < 0
-          ? Math.min(zoomLevel + zoomStep, 200)
-          : Math.max(zoomLevel - zoomStep, 10)
-
-      zoomTo(newZoomLevel)
-
-      return false
-    }
+    const delta = event.deltaY
+    let zoom = canvas.getZoom()
+    zoom *= 0.999 ** delta
+    if (zoom > 20) zoom = 20
+    if (zoom < 0.01) zoom = 0.01
+    const center = canvas.getCenter()
+    canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoom)
+    event.preventDefault()
+    event.stopPropagation()
+    return false
   })
 }

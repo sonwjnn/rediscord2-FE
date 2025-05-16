@@ -195,7 +195,7 @@ export type BuildEditorProps = {
   zoomTo: (level: number) => void
   zoomIn: () => void
   zoomOut: () => void
-  zoomToFill: () => void
+  resetZoom: () => void
   copy: () => void
   paste: () => void
   canvas: fabric.Canvas
@@ -226,7 +226,7 @@ export interface Editor {
   zoomTo: (level: number) => void
   zoomIn: () => void
   zoomOut: () => void
-  zoomToFill: () => void
+  resetZoom: () => void
   getWorkspace: () => fabric.Object | undefined
   changeBackground: (value: string) => void
   changeSize: (value: { width: number; height: number }) => void

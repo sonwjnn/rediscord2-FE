@@ -33,23 +33,6 @@ export const useZoom = ({ canvas, container }: UseZoomProps) => {
     [canvas],
   )
 
-  const zoomToFill = useCallback(() => {
-    if (!canvas || !container) return
-
-    const containerWidth = container.offsetWidth
-    const containerHeight = container.offsetHeight
-
-    const canvasWidth = canvas.getWidth()
-    const canvasHeight = canvas.getHeight()
-
-    const scaleX = containerWidth / canvasWidth
-    const scaleY = containerHeight / canvasHeight
-    const scale = Math.min(scaleX, scaleY) * 0.9 // 90% of the container
-
-    const newZoomLevel = Math.round(scale * 100)
-    zoomTo(newZoomLevel)
-  }, [canvas, container, zoomTo])
-
   const zoomIn = useCallback(() => {
     if (!canvas) return
 
@@ -74,10 +57,115 @@ export const useZoom = ({ canvas, container }: UseZoomProps) => {
     )
   }, [canvas])
 
+  const autoZoom = useCallback(() => {
+    if (!canvas || !container) return
+
+    const width = container.offsetWidth
+    const height = container.offsetHeight
+
+    canvas.setWidth(width)
+    canvas.setHeight(height)
+
+    const center = canvas.getCenter()
+
+    const zoomRatio = 0.85
+    const localWorkspace = canvas
+      .getObjects()
+      .find(object => object.name === 'clip')
+
+    // @ts-ignore
+    const scale = fabric.util.findScaleToFit(localWorkspace, {
+      width: width,
+      height: height,
+    })
+
+    const zoom = zoomRatio * scale
+
+    canvas.setViewportTransform(fabric.iMatrix.concat())
+    canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoom)
+
+    if (!localWorkspace) return
+
+    const workspaceCenter = localWorkspace.getCenterPoint()
+    const viewportTransform = canvas.viewportTransform
+
+    if (
+      canvas.width === undefined ||
+      canvas.height === undefined ||
+      !viewportTransform
+    ) {
+      return
+    }
+
+    viewportTransform[4] =
+      canvas.width / 2 - workspaceCenter.x * viewportTransform[0]
+
+    viewportTransform[5] =
+      canvas.height / 2 - workspaceCenter.y * viewportTransform[3]
+
+    canvas.setViewportTransform(viewportTransform)
+    canvas.renderAll()
+
+    localWorkspace.clone((cloned: fabric.Rect) => {
+      canvas.clipPath = cloned
+      canvas.requestRenderAll()
+    })
+  }, [canvas, container])
+
+  const resetZoom = useCallback(() => {
+    if (!canvas || !container) return
+
+    const width = container.offsetWidth
+    const height = container.offsetHeight
+
+    canvas.setWidth(width)
+    canvas.setHeight(height)
+
+    const center = canvas.getCenter()
+
+    const zoomRatio = 0.85
+    const localWorkspace = canvas
+      .getObjects()
+      .find(object => object.name === 'clip')
+
+    const zoom = zoomRatio * 1
+
+    canvas.setViewportTransform(fabric.iMatrix.concat())
+    canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoom)
+
+    if (!localWorkspace) return
+
+    const workspaceCenter = localWorkspace.getCenterPoint()
+    const viewportTransform = canvas.viewportTransform
+
+    if (
+      canvas.width === undefined ||
+      canvas.height === undefined ||
+      !viewportTransform
+    ) {
+      return
+    }
+
+    viewportTransform[4] =
+      canvas.width / 2 - workspaceCenter.x * viewportTransform[0]
+
+    viewportTransform[5] =
+      canvas.height / 2 - workspaceCenter.y * viewportTransform[3]
+
+    canvas.setViewportTransform(viewportTransform)
+    canvas.renderAll()
+
+    localWorkspace.clone((cloned: fabric.Rect) => {
+      canvas.clipPath = cloned
+      canvas.requestRenderAll()
+    })
+  }, [canvas, container])
+
   return {
     zoomTo,
-    zoomToFill,
     zoomIn,
     zoomOut,
+    resetZoom,
+    autoZoom,
   }
 }

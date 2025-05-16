@@ -1,21 +1,14 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-
-import { SuccessModal } from "@/features/subscriptions/components/success-modal";
-import { FailModal } from "@/features/subscriptions/components/fail-modal";
-import { SubscriptionModal } from "@/features/subscriptions/components/subscription-modal";
+import { SuccessModal } from '@/features/subscriptions/components/success-modal'
+import { FailModal } from '@/features/subscriptions/components/fail-modal'
+import { SubscriptionModal } from '@/features/subscriptions/components/subscription-modal'
+import { useMountedState } from 'react-use'
 
 export const Modals = () => {
-  const [isMounted, setIsMounted] = useState(false);
+  const mounted = useMountedState()
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
+  if (!mounted) return null
 
   return (
     <>
@@ -23,5 +16,5 @@ export const Modals = () => {
       <SuccessModal />
       <SubscriptionModal />
     </>
-  );
-};
+  )
+}

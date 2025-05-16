@@ -61,7 +61,7 @@ export const TemplateSidebar = ({
   return (
     <aside
       className={cn(
-        'bg-white relative border-r z-[40] w-[360px] h-full flex flex-col',
+        'bg-[#292c31] relative z-[40] w-[320px] h-full flex flex-col',
         activeTool === 'templates' ? 'visible' : 'hidden',
       )}
     >

@@ -70,12 +70,12 @@ export const Navbar = ({
   })
 
   return (
-    <nav className="w-full bg-[#292c31] flex items-center p-4 h-[48px] gap-x-8 lg:pl-[34px]">
+    <nav className="w-full bg-[#292c31] border-b border-[#171719] flex items-center p-4 h-[48px] gap-x-8 lg:pl-[12px]">
       <Logo />
-      <div className="w-full flex items-center gap-x-1 h-full">
+      <div className="w-full flex items-center gap-x-2 h-full">
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button size="sm" variant="ghost">
+            <Button size="sm" variant="toolsGhost">
               File
               <ChevronDown className="size-4 ml-2" />
             </Button>
@@ -95,13 +95,12 @@ export const Navbar = ({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Separator orientation="vertical" className="mx-2" />
         <Hint label="Select" side="bottom" sideOffset={10}>
           <Button
-            variant="ghost"
+            variant="toolsGhost"
             size="icon"
             onClick={() => onChangeActiveTool('select')}
-            className={cn(activeTool === 'select' && 'bg-gray-100')}
+            className={cn(activeTool === 'select' && 'bg-[#424549]')}
           >
             <MousePointerClick className="size-4" />
           </Button>
@@ -109,7 +108,7 @@ export const Navbar = ({
         <Hint label="Undo" side="bottom" sideOffset={10}>
           <Button
             disabled={!editor?.canUndo()}
-            variant="ghost"
+            variant="toolsGhost"
             size="icon"
             onClick={() => editor?.onUndo()}
           >
@@ -119,14 +118,13 @@ export const Navbar = ({
         <Hint label="Redo" side="bottom" sideOffset={10}>
           <Button
             disabled={!editor?.canRedo()}
-            variant="ghost"
+            variant="toolsGhost"
             size="icon"
             onClick={() => editor?.onRedo()}
           >
             <Redo2 className="size-4" />
           </Button>
         </Hint>
-        <Separator orientation="vertical" className="mx-2" />
         {isPending && (
           <div className="flex items-center gap-x-2">
             <Loader className="size-4 animate-spin text-muted-foreground" />
@@ -148,7 +146,7 @@ export const Navbar = ({
         <div className="ml-auto flex items-center gap-x-4">
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-              <Button size="sm" variant="ghost">
+              <Button variant="toolsGhost" size="sm">
                 Export
                 <Download className="size-4 ml-4" />
               </Button>
