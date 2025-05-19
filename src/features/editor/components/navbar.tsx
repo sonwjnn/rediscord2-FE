@@ -70,7 +70,7 @@ export const Navbar = ({
   })
 
   return (
-    <nav className="w-full bg-[#292c31] border-b border-[#171719] flex items-center p-4 h-[48px] gap-x-8 lg:pl-[12px]">
+    <nav className="w-full bg-[#16181d] rounded-md ring ring-[#25272c] flex items-center p-4 h-[48px] gap-x-8 lg:pl-[12px]">
       <Logo />
       <div className="w-full flex items-center gap-x-2 h-full">
         <DropdownMenu modal={false}>
@@ -100,7 +100,7 @@ export const Navbar = ({
             variant="toolsGhost"
             size="icon"
             onClick={() => onChangeActiveTool('select')}
-            className={cn(activeTool === 'select' && 'bg-[#424549]')}
+            className={cn(activeTool === 'select' && 'bg-[#23262f]')}
           >
             <MousePointerClick className="size-4" />
           </Button>
@@ -127,20 +127,20 @@ export const Navbar = ({
         </Hint>
         {isPending && (
           <div className="flex items-center gap-x-2">
-            <Loader className="size-4 animate-spin text-muted-foreground" />
-            <div className="text-xs text-muted-foreground">Saving...</div>
+            <Loader className="size-4 animate-spin text-[#576175]" />
+            <div className="text-xs text-[#576175]">Saving...</div>
           </div>
         )}
         {!isPending && isError && (
           <div className="flex items-center gap-x-2">
-            <BsCloudSlash className="size-[20px] text-muted-foreground" />
-            <div className="text-xs text-muted-foreground">Failed to save</div>
+            <BsCloudSlash className="size-[20px] text-[#576175]" />
+            <div className="text-xs text-[#576175]">Failed to save</div>
           </div>
         )}
         {!isPending && !isError && (
           <div className="flex items-center gap-x-2">
-            <BsCloudCheck className="size-[20px] text-muted-foreground" />
-            <div className="text-xs text-muted-foreground">Saved</div>
+            <BsCloudCheck className="size-[20px] text-[#576175]" />
+            <div className="text-xs text-[#576175]">Saved</div>
           </div>
         )}
         <div className="ml-auto flex items-center gap-x-4">

@@ -9,6 +9,8 @@ import { ToolSidebarHeader } from '@/features/editor/components/tool-sidebar-hea
 
 import { cn } from '@/lib/utils'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { shapesSrc } from '@/data/shapes'
+import { ShapeImageTool } from './shape-image-tool'
 
 interface ShapeSidebarProps {
   editor: Editor | undefined
@@ -28,7 +30,7 @@ export const ShapeSidebar = ({
   return (
     <aside
       className={cn(
-        'bg-[#292c31] relative z-[40] w-[320px] h-full flex flex-col',
+        'bg-[#16181d] ring ring-[#25272c] rounded-md relative z-[40] w-[320px] mr-2 h-full flex flex-col',
         activeTool === 'shapes' ? 'visible' : 'hidden',
       )}
     >
@@ -36,26 +38,38 @@ export const ShapeSidebar = ({
         title="Shapes"
         description="Add shapes to your canvas"
       />
-      <ScrollArea>
-        <div className="grid grid-cols-3 gap-4 p-4">
-          <ShapeTool onClick={() => editor?.addCircle()} icon={FaCircle} />
-          <ShapeTool
-            onClick={() => editor?.addSoftRectangle()}
-            icon={FaSquare}
-          />
-          <ShapeTool
-            onClick={() => editor?.addRectangle()}
-            icon={FaSquareFull}
-          />
-          <ShapeTool onClick={() => editor?.addTriangle()} icon={IoTriangle} />
-          <ShapeTool
-            onClick={() => editor?.addInverseTriangle()}
-            icon={IoTriangle}
-            iconClassName="rotate-180"
-          />
-          <ShapeTool onClick={() => editor?.addDiamond()} icon={FaDiamond} />
-        </div>
-      </ScrollArea>
+      <div className="flex-1 overflow-hidden">
+        <ScrollArea className="h-full">
+          <div className="grid grid-cols-3 gap-4 p-4">
+            <ShapeTool onClick={() => editor?.addCircle()} icon={FaCircle} />
+            <ShapeTool
+              onClick={() => editor?.addSoftRectangle()}
+              icon={FaSquare}
+            />
+            <ShapeTool
+              onClick={() => editor?.addRectangle()}
+              icon={FaSquareFull}
+            />
+            <ShapeTool
+              onClick={() => editor?.addTriangle()}
+              icon={IoTriangle}
+            />
+            <ShapeTool
+              onClick={() => editor?.addInverseTriangle()}
+              icon={IoTriangle}
+              iconClassName="rotate-180"
+            />
+            <ShapeTool onClick={() => editor?.addDiamond()} icon={FaDiamond} />
+            {shapesSrc.map((src, index) => (
+              <ShapeImageTool
+                key={index}
+                onClick={() => editor?.addImageShape(src)}
+                imageSrc={src}
+              />
+            ))}
+          </div>
+        </ScrollArea>
+      </div>
       <ToolSidebarClose onClick={onClose} />
     </aside>
   )

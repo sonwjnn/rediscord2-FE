@@ -45,7 +45,7 @@ export const OpacitySidebar = ({
   return (
     <aside
       className={cn(
-        'bg-[#292c31] relative z-[40] w-[320px] h-full flex flex-col',
+        'bg-[#16181d] ring ring-[#25272c] rounded-md relative z-[40] w-[320px] mr-2 h-full flex flex-col',
         activeTool === 'opacity' ? 'visible' : 'hidden',
       )}
     >

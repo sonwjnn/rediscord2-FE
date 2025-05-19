@@ -42,7 +42,7 @@ export const Footer = ({ editor }: FooterProps) => {
   }
 
   return (
-    <footer className="h-[50px] bg-transparent fixed right-0 bottom-0 w-full flex items-center overflow-x-auto z-[49] p-2 gap-x-1 shrink-0 px-4 flex-row-reverse">
+    <footer className="h-[50px] bg-transparent fixed right-1 bottom-2 w-full flex items-center overflow-x-auto z-[49] p-2 gap-x-1 shrink-0 px-4 flex-row-reverse">
       <Button
         onClick={() => editor?.autoZoom()}
         size="icon"

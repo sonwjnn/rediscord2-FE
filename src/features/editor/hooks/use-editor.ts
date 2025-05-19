@@ -18,6 +18,7 @@ import {
   FONT_WEIGHT,
   FONT_SIZE,
   JSON_KEYS,
+  COMMON_SHAPE_OPTIONS,
 } from '@/features/editor/types'
 import { useHistory } from '@/features/editor/hooks/use-history'
 import {
@@ -213,6 +214,17 @@ const buildEditor = ({
         },
       )
     },
+    addImageShape: (src: string) => {
+      fabric.loadSVGFromURL(src, (objects, options) => {
+        const svgGroup = new fabric.Group(objects, {
+          left: 100,
+          top: 100,
+          fill: fillColor,
+        })
+        addToCanvas(svgGroup)
+        canvas.requestRenderAll()
+      })
+    },
     delete: () => {
       canvas.getActiveObjects().forEach(object => canvas.remove(object))
       canvas.discardActiveObject()
@@ -402,7 +414,16 @@ const buildEditor = ({
     changeFillColor: (value: string) => {
       setFillColor(value)
       canvas.getActiveObjects().forEach(object => {
-        object.set({ fill: value })
+        if (object.type === 'group') {
+          // @ts-ignore
+          object._objects.forEach((subObj: fabric.Object) => {
+            if (subObj.fill) {
+              subObj.set('fill', value)
+            }
+          })
+        } else {
+          object.set('fill', value)
+        }
       })
       canvas.renderAll()
     },
@@ -446,6 +467,7 @@ const buildEditor = ({
 
       addToCanvas(object)
     },
+
     addSoftRectangle: () => {
       const object = new fabric.Rect({
         ...RECTANGLE_OPTIONS,
@@ -733,11 +755,11 @@ export const useEditor = ({
       fabric.Object.prototype.set({
         cornerColor: '#FFF',
         cornerStyle: 'circle',
-        borderColor: '#8b3dff',
+        borderColor: '#51b9f9',
         borderScaleFactor: 1.5,
         transparentCorners: false,
         borderOpacityWhenMoving: 1,
-        cornerStrokeColor: '#8b3dff',
+        cornerStrokeColor: '#51b9f9',
       })
 
       const initialWorkspace = new fabric.Rect({

@@ -20,7 +20,7 @@ interface SidebarProps {
 
 export const Sidebar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
   return (
-    <aside className="bg-[#292c31] border-r border-[#171719] flex flex-col w-[60px] h-full overflow-y-auto">
+    <aside className="bg-[#16181d] rounded-md border-r border-[#171719] ring ring-[#25272c] mr-2 flex flex-col w-[60px] h-full overflow-y-auto">
       <ul className="flex flex-col gap-y-[10px] mt-5">
         <SidebarItem
           icon={LayoutTemplate}

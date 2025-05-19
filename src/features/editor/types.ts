@@ -114,7 +114,7 @@ export type ActiveTool =
   | 'remove-bg'
   | 'templates'
 
-export const FILL_COLOR = 'rgba(0,0,0,1)'
+export const FILL_COLOR = '#9fa6b2'
 export const STROKE_COLOR = 'rgba(0,0,0,1)'
 export const STROKE_WIDTH = 2
 export const STROKE_DASH_ARRAY = []
@@ -171,6 +171,14 @@ export const TEXT_OPTIONS = {
   fill: FILL_COLOR,
   fontSize: FONT_SIZE,
   fontFamily: FONT_FAMILY,
+}
+
+export const COMMON_SHAPE_OPTIONS = {
+  left: 100,
+  top: 100,
+  fill: FILL_COLOR,
+  stroke: STROKE_COLOR,
+  strokeWidth: STROKE_WIDTH,
 }
 
 export interface EditorHookProps {
@@ -261,6 +269,7 @@ export interface Editor {
   changeStrokeColor: (value: string) => void
   changeStrokeDashArray: (value: number[]) => void
   addCircle: () => void
+  addImageShape: (src: string) => void
   addSoftRectangle: () => void
   addRectangle: () => void
   addTriangle: () => void

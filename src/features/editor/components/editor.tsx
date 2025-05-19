@@ -39,7 +39,7 @@ export const Editor = ({ initialData }: EditorProps) => {
   const debouncedSave = useCallback(
     debounce((values: { json: string; height: number; width: number }) => {
       mutate(values)
-    }, 1000),
+    }, 2000),
     [mutate],
   )
 
@@ -98,14 +98,16 @@ export const Editor = ({ initialData }: EditorProps) => {
   }, [init])
 
   return (
-    <div className="h-full flex flex-col">
-      <Navbar
-        id={initialData.id}
-        editor={editor}
-        activeTool={activeTool}
-        onChangeActiveTool={onChangeActiveTool}
-      />
-      <div className="absolute h-[calc(100%-48px)] w-full top-[48px] flex">
+    <div className="h-full flex flex-col bg-[#1c1f26]">
+      <div className="p-2">
+        <Navbar
+          id={initialData.id}
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+      </div>
+      <div className="absolute h-[calc(100%-58px)] w-full top-[58px] flex p-2">
         <Sidebar
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
@@ -180,7 +182,7 @@ export const Editor = ({ initialData }: EditorProps) => {
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
         />
-        <main className="bg-[#171719] flex-1 overflow-auto relative flex flex-col">
+        <main className="bg-[#171719] rounded-md ring ring-[#25272c] flex-1 overflow-auto relative flex flex-col">
           <Toolbar
             editor={editor}
             activeTool={activeTool}
@@ -188,7 +190,7 @@ export const Editor = ({ initialData }: EditorProps) => {
             key={JSON.stringify(editor?.canvas.getActiveObject())}
           />
           <div
-            className="flex-1 h-[calc(100%-124px)] bg-[#171719]"
+            className="flex-1 h-[calc(100%-124px)] bg-[#16181d]"
             ref={containerRef}
           >
             <canvas ref={canvasRef} />

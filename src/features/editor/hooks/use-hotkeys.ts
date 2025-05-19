@@ -85,22 +85,27 @@ export const useHotkeys = ({
     }
   })
 
-  useEvent('wheel', (event: WheelEvent) => {
+  useEffect(() => {
     if (!canvas || !container) return
 
-    if (!container.contains(event.target as Node)) return
+    const handleWheel = (event: WheelEvent) => {
+      if (!container.contains(event.target as Node)) return
 
-    event.preventDefault()
+      event.preventDefault()
 
-    const delta = event.deltaY
-    let zoom = canvas.getZoom()
-    zoom *= 0.999 ** delta
-    if (zoom > 20) zoom = 20
-    if (zoom < 0.01) zoom = 0.01
-    const center = canvas.getCenter()
-    canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoom)
-    event.preventDefault()
-    event.stopPropagation()
-    return false
-  })
+      const delta = event.deltaY
+      let zoom = canvas.getZoom()
+      zoom *= 0.999 ** delta
+      if (zoom > 20) zoom = 20
+      if (zoom < 0.01) zoom = 0.01
+      const center = canvas.getCenter()
+      canvas.zoomToPoint(new fabric.Point(center.left, center.top), zoom)
+    }
+
+    container.addEventListener('wheel', handleWheel, { passive: false })
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel)
+    }
+  }, [canvas, container])
 }
